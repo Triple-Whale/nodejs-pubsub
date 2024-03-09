@@ -427,6 +427,7 @@ export class Subscriber extends EventEmitter {
     this._subscription = subscription;
 
     this.setOptions(options);
+    this.updateAckDeadline();
   }
 
   /**
