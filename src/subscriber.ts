@@ -617,6 +617,18 @@ export class Subscriber extends EventEmitter {
     this._modAcks.close();
   }
 
+  async stop(): Promise<void> {
+    this.isOpen = false;
+
+    this._stream.destroy();
+    await this._waitForFlush();
+
+    this.emit('close');
+
+    this._acks.close();
+    this._modAcks.close();
+  }
+
   /**
    * Gets the subscriber client instance.
    *
@@ -777,7 +789,7 @@ export class Subscriber extends EventEmitter {
         this.maxMessages
       );
     }
-    
+
     if (this._acks) this._acks.setOptions(this._options.batching!);
     if (this._modAcks) this._modAcks.setOptions(this._options.batching!);
     if (this._inventory) this._inventory.setOptions(this._options.flowControl!);
