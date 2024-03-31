@@ -624,9 +624,6 @@ export class Subscriber extends EventEmitter {
     await this._waitForFlush();
 
     this.emit('close');
-
-    this._acks.close();
-    this._modAcks.close();
   }
 
   /**

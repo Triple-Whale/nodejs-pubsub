@@ -271,7 +271,7 @@ export class Subscription extends EventEmitter {
   topic?: Topic | string;
   metadata?: google.pubsub.v1.ISubscription;
   request: typeof PubSub.prototype.request;
-  private _subscriber: Subscriber;
+  _subscriber: Subscriber;
   constructor(pubsub: PubSub, name: string, options?: SubscriptionOptions) {
     super();
 
