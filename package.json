@@ -1,7 +1,7 @@
 {
   "name": "@tw/pubsub",
   "description": "Cloud Pub/Sub Client Library for Node.js",
-  "version": "4.3.10",
+  "version": "4.3.12",
   "license": "Apache-2.0",
   "author": "Google Inc.",
   "engines": {

@@ -916,7 +916,7 @@ export class Subscriber extends EventEmitter {
    *
    * @returns {Promise}
    */
-  private async _waitForFlush(): Promise<void> {
+  async _waitForFlush(): Promise<void> {
     const promises: Array<Promise<void>> = [];
 
     if (this._acks.numPendingRequests) {
