@@ -624,7 +624,7 @@ export class Subscriber extends EventEmitter {
     this._stream.destroy();
     await this._waitForFlush();
 
-    this.emit('close');
+    this.emit('stop');
   }
 
   /**
