@@ -104,7 +104,7 @@ export class LeaseManager extends EventEmitter {
     this._messages.add(message);
     this.bytes += message.length;
 
-    if (allowExcessMessages! || !wasFull) {
+    if (allowExcessMessages || !wasFull) {
       this._dispense(message);
     } else {
       this._pending.push(message);
