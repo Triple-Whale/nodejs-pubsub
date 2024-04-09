@@ -618,11 +618,10 @@ export class Subscriber extends EventEmitter {
     this._modAcks.close();
   }
 
-  async stop(): Promise<void> {
+  stop(): void {
     this.isOpen = false;
 
     this._stream.destroy();
-    await this._waitForFlush();
 
     this.emit('stop');
   }
