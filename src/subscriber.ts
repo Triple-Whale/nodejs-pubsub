@@ -619,8 +619,6 @@ export class Subscriber extends EventEmitter {
   }
 
   stop(): void {
-    this.isOpen = false;
-
     this._stream.destroy();
 
     this.emit('stop');
