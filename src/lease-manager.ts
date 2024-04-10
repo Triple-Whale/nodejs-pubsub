@@ -101,10 +101,9 @@ export class LeaseManager extends EventEmitter {
     const {allowExcessMessages} = this._options;
     const wasFull = this.isFull();
 
-    this._messages.add(message);
-    this.bytes += message.length;
-
     if (allowExcessMessages || !wasFull) {
+      this._messages.add(message);
+      this.bytes += message.length;
       this._dispense(message);
     } else {
       this._pending.push(message);
@@ -157,7 +156,12 @@ export class LeaseManager extends EventEmitter {
    */
   remove(message: Message): void {
     if (!this._messages.has(message)) {
-      return;
+      if (this._pending.includes(message)) {
+        const index = this._pending.indexOf(message);
+        this._pending.splice(index, 1);
+      } else {
+        return;
+      }
     }
 
     const wasFull = this.isFull();
@@ -170,10 +174,6 @@ export class LeaseManager extends EventEmitter {
     }
     if (wasFull && !this.isFull()) {
       process.nextTick(() => this.emit('free'));
-    }
-    if (this._pending.includes(message)) {
-      const index = this._pending.indexOf(message);
-      this._pending.splice(index, 1);
     }
 
     if (this.size === 0 && this._isLeasing) {

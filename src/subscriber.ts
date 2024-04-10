@@ -915,11 +915,13 @@ export class Subscriber extends EventEmitter {
     const promises: Array<Promise<void>> = [];
 
     if (this._acks.numPendingRequests) {
-      promises.push(this._acks.flush());
+      promises.push(this._acks.onFlush());
+      this._acks.flush();
     }
 
     if (this._modAcks.numPendingRequests) {
-      promises.push(this._modAcks.flush());
+      promises.push(this._modAcks.onFlush());
+      this._modAcks.flush();
     }
 
     if (this._acks.numInFlightRequests) {
