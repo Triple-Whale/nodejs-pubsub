@@ -252,7 +252,7 @@ export class LeaseManager extends EventEmitter {
   private _extendDeadlines(): void {
     const deadline = this._subscriber.ackDeadline;
 
-    for (const message of this._messages) {
+    for (const message of [...this._messages, ...this._pending]) {
       // Lifespan here is in minutes.
       const lifespan = (Date.now() - message.received) / (60 * 1000);
 
