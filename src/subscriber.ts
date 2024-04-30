@@ -622,6 +622,14 @@ export class Subscriber extends EventEmitter {
     this._stream.cancel();
   }
 
+  pause(): void {
+    this._stream._pause();
+  }
+
+  resume(): void {
+    this._stream._resume();
+  }
+
   /**
    * Gets the subscriber client instance.
    *
@@ -726,8 +734,8 @@ export class Subscriber extends EventEmitter {
       .once('close', () => this.close());
 
     this._inventory
-      .on('full', () => this._stream._pause())
-      .on('free', () => this._stream._resume());
+      .on('full', () => this.pause())
+      .on('free', () => this.resume());
 
     this._stream.start().catch(err => {
       this.emit('error', err);
