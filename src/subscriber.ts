@@ -618,8 +618,8 @@ export class Subscriber extends EventEmitter {
     this._modAcks.close();
   }
 
-  stop(): void {
-    this._stream.destroy();
+  cancel(): void {
+    this._stream.cancel();
   }
 
   /**
@@ -726,8 +726,8 @@ export class Subscriber extends EventEmitter {
       .once('close', () => this.close());
 
     this._inventory
-      .on('full', () => this._stream.pause())
-      .on('free', () => this._stream.resume());
+      .on('full', () => this._stream._pause())
+      .on('free', () => this._stream._resume());
 
     this._stream.start().catch(err => {
       this.emit('error', err);

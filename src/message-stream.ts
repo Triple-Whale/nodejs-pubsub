@@ -208,7 +208,7 @@ export class MessageStream extends PassThrough {
    * @param {Function} callback Callback for completion of any destruction.
    * @private
    */
-  _destroy(error: Error | null, callback: (error: Error | null) => void): void {
+  cancel(): void {
     if (this._keepAliveHandle) {
       clearInterval(this._keepAliveHandle);
     }
@@ -221,8 +221,24 @@ export class MessageStream extends PassThrough {
         this._removeStream(i);
       }
     }
+  }
 
-    callback(error);
+  _pause(): void {
+    for (let i = 0; i < this._streams.length; i++) {
+      const tracker = this._streams[i];
+      if (tracker.stream) {
+        tracker.stream.pause();
+      }
+    }
+  }
+
+  _resume(): void {
+    for (let i = 0; i < this._streams.length; i++) {
+      const tracker = this._streams[i];
+      if (tracker.stream) {
+        tracker.stream.resume();
+      }
+    }
   }
 
   /**
