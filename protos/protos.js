@@ -936,6 +936,8 @@
                      * @memberof google.pubsub.v1
                      * @interface IIngestionDataSourceSettings
                      * @property {google.pubsub.v1.IngestionDataSourceSettings.IAwsKinesis|null} [awsKinesis] IngestionDataSourceSettings awsKinesis
+                     * @property {google.pubsub.v1.IngestionDataSourceSettings.ICloudStorage|null} [cloudStorage] IngestionDataSourceSettings cloudStorage
+                     * @property {google.pubsub.v1.IPlatformLogsSettings|null} [platformLogsSettings] IngestionDataSourceSettings platformLogsSettings
                      */
     
                     /**
@@ -961,17 +963,33 @@
                      */
                     IngestionDataSourceSettings.prototype.awsKinesis = null;
     
+                    /**
+                     * IngestionDataSourceSettings cloudStorage.
+                     * @member {google.pubsub.v1.IngestionDataSourceSettings.ICloudStorage|null|undefined} cloudStorage
+                     * @memberof google.pubsub.v1.IngestionDataSourceSettings
+                     * @instance
+                     */
+                    IngestionDataSourceSettings.prototype.cloudStorage = null;
+    
+                    /**
+                     * IngestionDataSourceSettings platformLogsSettings.
+                     * @member {google.pubsub.v1.IPlatformLogsSettings|null|undefined} platformLogsSettings
+                     * @memberof google.pubsub.v1.IngestionDataSourceSettings
+                     * @instance
+                     */
+                    IngestionDataSourceSettings.prototype.platformLogsSettings = null;
+    
                     // OneOf field names bound to virtual getters and setters
                     var $oneOfFields;
     
                     /**
                      * IngestionDataSourceSettings source.
-                     * @member {"awsKinesis"|undefined} source
+                     * @member {"awsKinesis"|"cloudStorage"|undefined} source
                      * @memberof google.pubsub.v1.IngestionDataSourceSettings
                      * @instance
                      */
                     Object.defineProperty(IngestionDataSourceSettings.prototype, "source", {
-                        get: $util.oneOfGetter($oneOfFields = ["awsKinesis"]),
+                        get: $util.oneOfGetter($oneOfFields = ["awsKinesis", "cloudStorage"]),
                         set: $util.oneOfSetter($oneOfFields)
                     });
     
@@ -1001,6 +1019,10 @@
                             writer = $Writer.create();
                         if (message.awsKinesis != null && Object.hasOwnProperty.call(message, "awsKinesis"))
                             $root.google.pubsub.v1.IngestionDataSourceSettings.AwsKinesis.encode(message.awsKinesis, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                        if (message.cloudStorage != null && Object.hasOwnProperty.call(message, "cloudStorage"))
+                            $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.encode(message.cloudStorage, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                        if (message.platformLogsSettings != null && Object.hasOwnProperty.call(message, "platformLogsSettings"))
+                            $root.google.pubsub.v1.PlatformLogsSettings.encode(message.platformLogsSettings, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
                         return writer;
                     };
     
@@ -1037,6 +1059,14 @@
                             switch (tag >>> 3) {
                             case 1: {
                                     message.awsKinesis = $root.google.pubsub.v1.IngestionDataSourceSettings.AwsKinesis.decode(reader, reader.uint32());
+                                    break;
+                                }
+                            case 2: {
+                                    message.cloudStorage = $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.decode(reader, reader.uint32());
+                                    break;
+                                }
+                            case 4: {
+                                    message.platformLogsSettings = $root.google.pubsub.v1.PlatformLogsSettings.decode(reader, reader.uint32());
                                     break;
                                 }
                             default:
@@ -1083,6 +1113,21 @@
                                     return "awsKinesis." + error;
                             }
                         }
+                        if (message.cloudStorage != null && message.hasOwnProperty("cloudStorage")) {
+                            if (properties.source === 1)
+                                return "source: multiple values";
+                            properties.source = 1;
+                            {
+                                var error = $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.verify(message.cloudStorage);
+                                if (error)
+                                    return "cloudStorage." + error;
+                            }
+                        }
+                        if (message.platformLogsSettings != null && message.hasOwnProperty("platformLogsSettings")) {
+                            var error = $root.google.pubsub.v1.PlatformLogsSettings.verify(message.platformLogsSettings);
+                            if (error)
+                                return "platformLogsSettings." + error;
+                        }
                         return null;
                     };
     
@@ -1103,6 +1148,16 @@
                                 throw TypeError(".google.pubsub.v1.IngestionDataSourceSettings.awsKinesis: object expected");
                             message.awsKinesis = $root.google.pubsub.v1.IngestionDataSourceSettings.AwsKinesis.fromObject(object.awsKinesis);
                         }
+                        if (object.cloudStorage != null) {
+                            if (typeof object.cloudStorage !== "object")
+                                throw TypeError(".google.pubsub.v1.IngestionDataSourceSettings.cloudStorage: object expected");
+                            message.cloudStorage = $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.fromObject(object.cloudStorage);
+                        }
+                        if (object.platformLogsSettings != null) {
+                            if (typeof object.platformLogsSettings !== "object")
+                                throw TypeError(".google.pubsub.v1.IngestionDataSourceSettings.platformLogsSettings: object expected");
+                            message.platformLogsSettings = $root.google.pubsub.v1.PlatformLogsSettings.fromObject(object.platformLogsSettings);
+                        }
                         return message;
                     };
     
@@ -1119,11 +1174,20 @@
                         if (!options)
                             options = {};
                         var object = {};
+                        if (options.defaults)
+                            object.platformLogsSettings = null;
                         if (message.awsKinesis != null && message.hasOwnProperty("awsKinesis")) {
                             object.awsKinesis = $root.google.pubsub.v1.IngestionDataSourceSettings.AwsKinesis.toObject(message.awsKinesis, options);
                             if (options.oneofs)
                                 object.source = "awsKinesis";
                         }
+                        if (message.cloudStorage != null && message.hasOwnProperty("cloudStorage")) {
+                            object.cloudStorage = $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.toObject(message.cloudStorage, options);
+                            if (options.oneofs)
+                                object.source = "cloudStorage";
+                        }
+                        if (message.platformLogsSettings != null && message.hasOwnProperty("platformLogsSettings"))
+                            object.platformLogsSettings = $root.google.pubsub.v1.PlatformLogsSettings.toObject(message.platformLogsSettings, options);
                         return object;
                     };
     
@@ -1510,7 +1574,1299 @@
                         return AwsKinesis;
                     })();
     
+                    IngestionDataSourceSettings.CloudStorage = (function() {
+    
+                        /**
+                         * Properties of a CloudStorage.
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings
+                         * @interface ICloudStorage
+                         * @property {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.State|null} [state] CloudStorage state
+                         * @property {string|null} [bucket] CloudStorage bucket
+                         * @property {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.ITextFormat|null} [textFormat] CloudStorage textFormat
+                         * @property {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.IAvroFormat|null} [avroFormat] CloudStorage avroFormat
+                         * @property {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.IPubSubAvroFormat|null} [pubsubAvroFormat] CloudStorage pubsubAvroFormat
+                         * @property {google.protobuf.ITimestamp|null} [minimumObjectCreateTime] CloudStorage minimumObjectCreateTime
+                         * @property {string|null} [matchGlob] CloudStorage matchGlob
+                         */
+    
+                        /**
+                         * Constructs a new CloudStorage.
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings
+                         * @classdesc Represents a CloudStorage.
+                         * @implements ICloudStorage
+                         * @constructor
+                         * @param {google.pubsub.v1.IngestionDataSourceSettings.ICloudStorage=} [properties] Properties to set
+                         */
+                        function CloudStorage(properties) {
+                            if (properties)
+                                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                    if (properties[keys[i]] != null)
+                                        this[keys[i]] = properties[keys[i]];
+                        }
+    
+                        /**
+                         * CloudStorage state.
+                         * @member {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.State} state
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @instance
+                         */
+                        CloudStorage.prototype.state = 0;
+    
+                        /**
+                         * CloudStorage bucket.
+                         * @member {string} bucket
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @instance
+                         */
+                        CloudStorage.prototype.bucket = "";
+    
+                        /**
+                         * CloudStorage textFormat.
+                         * @member {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.ITextFormat|null|undefined} textFormat
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @instance
+                         */
+                        CloudStorage.prototype.textFormat = null;
+    
+                        /**
+                         * CloudStorage avroFormat.
+                         * @member {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.IAvroFormat|null|undefined} avroFormat
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @instance
+                         */
+                        CloudStorage.prototype.avroFormat = null;
+    
+                        /**
+                         * CloudStorage pubsubAvroFormat.
+                         * @member {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.IPubSubAvroFormat|null|undefined} pubsubAvroFormat
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @instance
+                         */
+                        CloudStorage.prototype.pubsubAvroFormat = null;
+    
+                        /**
+                         * CloudStorage minimumObjectCreateTime.
+                         * @member {google.protobuf.ITimestamp|null|undefined} minimumObjectCreateTime
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @instance
+                         */
+                        CloudStorage.prototype.minimumObjectCreateTime = null;
+    
+                        /**
+                         * CloudStorage matchGlob.
+                         * @member {string} matchGlob
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @instance
+                         */
+                        CloudStorage.prototype.matchGlob = "";
+    
+                        // OneOf field names bound to virtual getters and setters
+                        var $oneOfFields;
+    
+                        /**
+                         * CloudStorage inputFormat.
+                         * @member {"textFormat"|"avroFormat"|"pubsubAvroFormat"|undefined} inputFormat
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @instance
+                         */
+                        Object.defineProperty(CloudStorage.prototype, "inputFormat", {
+                            get: $util.oneOfGetter($oneOfFields = ["textFormat", "avroFormat", "pubsubAvroFormat"]),
+                            set: $util.oneOfSetter($oneOfFields)
+                        });
+    
+                        /**
+                         * Creates a new CloudStorage instance using the specified properties.
+                         * @function create
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @static
+                         * @param {google.pubsub.v1.IngestionDataSourceSettings.ICloudStorage=} [properties] Properties to set
+                         * @returns {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage} CloudStorage instance
+                         */
+                        CloudStorage.create = function create(properties) {
+                            return new CloudStorage(properties);
+                        };
+    
+                        /**
+                         * Encodes the specified CloudStorage message. Does not implicitly {@link google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.verify|verify} messages.
+                         * @function encode
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @static
+                         * @param {google.pubsub.v1.IngestionDataSourceSettings.ICloudStorage} message CloudStorage message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        CloudStorage.encode = function encode(message, writer) {
+                            if (!writer)
+                                writer = $Writer.create();
+                            if (message.state != null && Object.hasOwnProperty.call(message, "state"))
+                                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.state);
+                            if (message.bucket != null && Object.hasOwnProperty.call(message, "bucket"))
+                                writer.uint32(/* id 2, wireType 2 =*/18).string(message.bucket);
+                            if (message.textFormat != null && Object.hasOwnProperty.call(message, "textFormat"))
+                                $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat.encode(message.textFormat, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                            if (message.avroFormat != null && Object.hasOwnProperty.call(message, "avroFormat"))
+                                $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat.encode(message.avroFormat, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                            if (message.pubsubAvroFormat != null && Object.hasOwnProperty.call(message, "pubsubAvroFormat"))
+                                $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat.encode(message.pubsubAvroFormat, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                            if (message.minimumObjectCreateTime != null && Object.hasOwnProperty.call(message, "minimumObjectCreateTime"))
+                                $root.google.protobuf.Timestamp.encode(message.minimumObjectCreateTime, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+                            if (message.matchGlob != null && Object.hasOwnProperty.call(message, "matchGlob"))
+                                writer.uint32(/* id 9, wireType 2 =*/74).string(message.matchGlob);
+                            return writer;
+                        };
+    
+                        /**
+                         * Encodes the specified CloudStorage message, length delimited. Does not implicitly {@link google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.verify|verify} messages.
+                         * @function encodeDelimited
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @static
+                         * @param {google.pubsub.v1.IngestionDataSourceSettings.ICloudStorage} message CloudStorage message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        CloudStorage.encodeDelimited = function encodeDelimited(message, writer) {
+                            return this.encode(message, writer).ldelim();
+                        };
+    
+                        /**
+                         * Decodes a CloudStorage message from the specified reader or buffer.
+                         * @function decode
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @param {number} [length] Message length if known beforehand
+                         * @returns {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage} CloudStorage
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        CloudStorage.decode = function decode(reader, length) {
+                            if (!(reader instanceof $Reader))
+                                reader = $Reader.create(reader);
+                            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage();
+                            while (reader.pos < end) {
+                                var tag = reader.uint32();
+                                switch (tag >>> 3) {
+                                case 1: {
+                                        message.state = reader.int32();
+                                        break;
+                                    }
+                                case 2: {
+                                        message.bucket = reader.string();
+                                        break;
+                                    }
+                                case 3: {
+                                        message.textFormat = $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat.decode(reader, reader.uint32());
+                                        break;
+                                    }
+                                case 4: {
+                                        message.avroFormat = $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat.decode(reader, reader.uint32());
+                                        break;
+                                    }
+                                case 5: {
+                                        message.pubsubAvroFormat = $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat.decode(reader, reader.uint32());
+                                        break;
+                                    }
+                                case 6: {
+                                        message.minimumObjectCreateTime = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                                        break;
+                                    }
+                                case 9: {
+                                        message.matchGlob = reader.string();
+                                        break;
+                                    }
+                                default:
+                                    reader.skipType(tag & 7);
+                                    break;
+                                }
+                            }
+                            return message;
+                        };
+    
+                        /**
+                         * Decodes a CloudStorage message from the specified reader or buffer, length delimited.
+                         * @function decodeDelimited
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @returns {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage} CloudStorage
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        CloudStorage.decodeDelimited = function decodeDelimited(reader) {
+                            if (!(reader instanceof $Reader))
+                                reader = new $Reader(reader);
+                            return this.decode(reader, reader.uint32());
+                        };
+    
+                        /**
+                         * Verifies a CloudStorage message.
+                         * @function verify
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @static
+                         * @param {Object.<string,*>} message Plain object to verify
+                         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                         */
+                        CloudStorage.verify = function verify(message) {
+                            if (typeof message !== "object" || message === null)
+                                return "object expected";
+                            var properties = {};
+                            if (message.state != null && message.hasOwnProperty("state"))
+                                switch (message.state) {
+                                default:
+                                    return "state: enum value expected";
+                                case 0:
+                                case 1:
+                                case 2:
+                                case 3:
+                                case 4:
+                                case 5:
+                                    break;
+                                }
+                            if (message.bucket != null && message.hasOwnProperty("bucket"))
+                                if (!$util.isString(message.bucket))
+                                    return "bucket: string expected";
+                            if (message.textFormat != null && message.hasOwnProperty("textFormat")) {
+                                properties.inputFormat = 1;
+                                {
+                                    var error = $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat.verify(message.textFormat);
+                                    if (error)
+                                        return "textFormat." + error;
+                                }
+                            }
+                            if (message.avroFormat != null && message.hasOwnProperty("avroFormat")) {
+                                if (properties.inputFormat === 1)
+                                    return "inputFormat: multiple values";
+                                properties.inputFormat = 1;
+                                {
+                                    var error = $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat.verify(message.avroFormat);
+                                    if (error)
+                                        return "avroFormat." + error;
+                                }
+                            }
+                            if (message.pubsubAvroFormat != null && message.hasOwnProperty("pubsubAvroFormat")) {
+                                if (properties.inputFormat === 1)
+                                    return "inputFormat: multiple values";
+                                properties.inputFormat = 1;
+                                {
+                                    var error = $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat.verify(message.pubsubAvroFormat);
+                                    if (error)
+                                        return "pubsubAvroFormat." + error;
+                                }
+                            }
+                            if (message.minimumObjectCreateTime != null && message.hasOwnProperty("minimumObjectCreateTime")) {
+                                var error = $root.google.protobuf.Timestamp.verify(message.minimumObjectCreateTime);
+                                if (error)
+                                    return "minimumObjectCreateTime." + error;
+                            }
+                            if (message.matchGlob != null && message.hasOwnProperty("matchGlob"))
+                                if (!$util.isString(message.matchGlob))
+                                    return "matchGlob: string expected";
+                            return null;
+                        };
+    
+                        /**
+                         * Creates a CloudStorage message from a plain object. Also converts values to their respective internal types.
+                         * @function fromObject
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @static
+                         * @param {Object.<string,*>} object Plain object
+                         * @returns {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage} CloudStorage
+                         */
+                        CloudStorage.fromObject = function fromObject(object) {
+                            if (object instanceof $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage)
+                                return object;
+                            var message = new $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage();
+                            switch (object.state) {
+                            default:
+                                if (typeof object.state === "number") {
+                                    message.state = object.state;
+                                    break;
+                                }
+                                break;
+                            case "STATE_UNSPECIFIED":
+                            case 0:
+                                message.state = 0;
+                                break;
+                            case "ACTIVE":
+                            case 1:
+                                message.state = 1;
+                                break;
+                            case "CLOUD_STORAGE_PERMISSION_DENIED":
+                            case 2:
+                                message.state = 2;
+                                break;
+                            case "PUBLISH_PERMISSION_DENIED":
+                            case 3:
+                                message.state = 3;
+                                break;
+                            case "BUCKET_NOT_FOUND":
+                            case 4:
+                                message.state = 4;
+                                break;
+                            case "TOO_MANY_OBJECTS":
+                            case 5:
+                                message.state = 5;
+                                break;
+                            }
+                            if (object.bucket != null)
+                                message.bucket = String(object.bucket);
+                            if (object.textFormat != null) {
+                                if (typeof object.textFormat !== "object")
+                                    throw TypeError(".google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.textFormat: object expected");
+                                message.textFormat = $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat.fromObject(object.textFormat);
+                            }
+                            if (object.avroFormat != null) {
+                                if (typeof object.avroFormat !== "object")
+                                    throw TypeError(".google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.avroFormat: object expected");
+                                message.avroFormat = $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat.fromObject(object.avroFormat);
+                            }
+                            if (object.pubsubAvroFormat != null) {
+                                if (typeof object.pubsubAvroFormat !== "object")
+                                    throw TypeError(".google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.pubsubAvroFormat: object expected");
+                                message.pubsubAvroFormat = $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat.fromObject(object.pubsubAvroFormat);
+                            }
+                            if (object.minimumObjectCreateTime != null) {
+                                if (typeof object.minimumObjectCreateTime !== "object")
+                                    throw TypeError(".google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.minimumObjectCreateTime: object expected");
+                                message.minimumObjectCreateTime = $root.google.protobuf.Timestamp.fromObject(object.minimumObjectCreateTime);
+                            }
+                            if (object.matchGlob != null)
+                                message.matchGlob = String(object.matchGlob);
+                            return message;
+                        };
+    
+                        /**
+                         * Creates a plain object from a CloudStorage message. Also converts values to other types if specified.
+                         * @function toObject
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @static
+                         * @param {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage} message CloudStorage
+                         * @param {$protobuf.IConversionOptions} [options] Conversion options
+                         * @returns {Object.<string,*>} Plain object
+                         */
+                        CloudStorage.toObject = function toObject(message, options) {
+                            if (!options)
+                                options = {};
+                            var object = {};
+                            if (options.defaults) {
+                                object.state = options.enums === String ? "STATE_UNSPECIFIED" : 0;
+                                object.bucket = "";
+                                object.minimumObjectCreateTime = null;
+                                object.matchGlob = "";
+                            }
+                            if (message.state != null && message.hasOwnProperty("state"))
+                                object.state = options.enums === String ? $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.State[message.state] === undefined ? message.state : $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.State[message.state] : message.state;
+                            if (message.bucket != null && message.hasOwnProperty("bucket"))
+                                object.bucket = message.bucket;
+                            if (message.textFormat != null && message.hasOwnProperty("textFormat")) {
+                                object.textFormat = $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat.toObject(message.textFormat, options);
+                                if (options.oneofs)
+                                    object.inputFormat = "textFormat";
+                            }
+                            if (message.avroFormat != null && message.hasOwnProperty("avroFormat")) {
+                                object.avroFormat = $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat.toObject(message.avroFormat, options);
+                                if (options.oneofs)
+                                    object.inputFormat = "avroFormat";
+                            }
+                            if (message.pubsubAvroFormat != null && message.hasOwnProperty("pubsubAvroFormat")) {
+                                object.pubsubAvroFormat = $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat.toObject(message.pubsubAvroFormat, options);
+                                if (options.oneofs)
+                                    object.inputFormat = "pubsubAvroFormat";
+                            }
+                            if (message.minimumObjectCreateTime != null && message.hasOwnProperty("minimumObjectCreateTime"))
+                                object.minimumObjectCreateTime = $root.google.protobuf.Timestamp.toObject(message.minimumObjectCreateTime, options);
+                            if (message.matchGlob != null && message.hasOwnProperty("matchGlob"))
+                                object.matchGlob = message.matchGlob;
+                            return object;
+                        };
+    
+                        /**
+                         * Converts this CloudStorage to JSON.
+                         * @function toJSON
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @instance
+                         * @returns {Object.<string,*>} JSON object
+                         */
+                        CloudStorage.prototype.toJSON = function toJSON() {
+                            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                        };
+    
+                        /**
+                         * Gets the default type url for CloudStorage
+                         * @function getTypeUrl
+                         * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                         * @static
+                         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns {string} The default type url
+                         */
+                        CloudStorage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                            if (typeUrlPrefix === undefined) {
+                                typeUrlPrefix = "type.googleapis.com";
+                            }
+                            return typeUrlPrefix + "/google.pubsub.v1.IngestionDataSourceSettings.CloudStorage";
+                        };
+    
+                        /**
+                         * State enum.
+                         * @name google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.State
+                         * @enum {number}
+                         * @property {number} STATE_UNSPECIFIED=0 STATE_UNSPECIFIED value
+                         * @property {number} ACTIVE=1 ACTIVE value
+                         * @property {number} CLOUD_STORAGE_PERMISSION_DENIED=2 CLOUD_STORAGE_PERMISSION_DENIED value
+                         * @property {number} PUBLISH_PERMISSION_DENIED=3 PUBLISH_PERMISSION_DENIED value
+                         * @property {number} BUCKET_NOT_FOUND=4 BUCKET_NOT_FOUND value
+                         * @property {number} TOO_MANY_OBJECTS=5 TOO_MANY_OBJECTS value
+                         */
+                        CloudStorage.State = (function() {
+                            var valuesById = {}, values = Object.create(valuesById);
+                            values[valuesById[0] = "STATE_UNSPECIFIED"] = 0;
+                            values[valuesById[1] = "ACTIVE"] = 1;
+                            values[valuesById[2] = "CLOUD_STORAGE_PERMISSION_DENIED"] = 2;
+                            values[valuesById[3] = "PUBLISH_PERMISSION_DENIED"] = 3;
+                            values[valuesById[4] = "BUCKET_NOT_FOUND"] = 4;
+                            values[valuesById[5] = "TOO_MANY_OBJECTS"] = 5;
+                            return values;
+                        })();
+    
+                        CloudStorage.TextFormat = (function() {
+    
+                            /**
+                             * Properties of a TextFormat.
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                             * @interface ITextFormat
+                             * @property {string|null} [delimiter] TextFormat delimiter
+                             */
+    
+                            /**
+                             * Constructs a new TextFormat.
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                             * @classdesc Represents a TextFormat.
+                             * @implements ITextFormat
+                             * @constructor
+                             * @param {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.ITextFormat=} [properties] Properties to set
+                             */
+                            function TextFormat(properties) {
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * TextFormat delimiter.
+                             * @member {string|null|undefined} delimiter
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat
+                             * @instance
+                             */
+                            TextFormat.prototype.delimiter = null;
+    
+                            // OneOf field names bound to virtual getters and setters
+                            var $oneOfFields;
+    
+                            /**
+                             * TextFormat _delimiter.
+                             * @member {"delimiter"|undefined} _delimiter
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat
+                             * @instance
+                             */
+                            Object.defineProperty(TextFormat.prototype, "_delimiter", {
+                                get: $util.oneOfGetter($oneOfFields = ["delimiter"]),
+                                set: $util.oneOfSetter($oneOfFields)
+                            });
+    
+                            /**
+                             * Creates a new TextFormat instance using the specified properties.
+                             * @function create
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat
+                             * @static
+                             * @param {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.ITextFormat=} [properties] Properties to set
+                             * @returns {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat} TextFormat instance
+                             */
+                            TextFormat.create = function create(properties) {
+                                return new TextFormat(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified TextFormat message. Does not implicitly {@link google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat
+                             * @static
+                             * @param {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.ITextFormat} message TextFormat message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            TextFormat.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                if (message.delimiter != null && Object.hasOwnProperty.call(message, "delimiter"))
+                                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.delimiter);
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified TextFormat message, length delimited. Does not implicitly {@link google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat
+                             * @static
+                             * @param {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.ITextFormat} message TextFormat message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            TextFormat.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a TextFormat message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat} TextFormat
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            TextFormat.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    case 1: {
+                                            message.delimiter = reader.string();
+                                            break;
+                                        }
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a TextFormat message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat} TextFormat
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            TextFormat.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a TextFormat message.
+                             * @function verify
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            TextFormat.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                var properties = {};
+                                if (message.delimiter != null && message.hasOwnProperty("delimiter")) {
+                                    properties._delimiter = 1;
+                                    if (!$util.isString(message.delimiter))
+                                        return "delimiter: string expected";
+                                }
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a TextFormat message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat} TextFormat
+                             */
+                            TextFormat.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat)
+                                    return object;
+                                var message = new $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat();
+                                if (object.delimiter != null)
+                                    message.delimiter = String(object.delimiter);
+                                return message;
+                            };
+    
+                            /**
+                             * Creates a plain object from a TextFormat message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat
+                             * @static
+                             * @param {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat} message TextFormat
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            TextFormat.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                var object = {};
+                                if (message.delimiter != null && message.hasOwnProperty("delimiter")) {
+                                    object.delimiter = message.delimiter;
+                                    if (options.oneofs)
+                                        object._delimiter = "delimiter";
+                                }
+                                return object;
+                            };
+    
+                            /**
+                             * Converts this TextFormat to JSON.
+                             * @function toJSON
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            TextFormat.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for TextFormat
+                             * @function getTypeUrl
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            TextFormat.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat";
+                            };
+    
+                            return TextFormat;
+                        })();
+    
+                        CloudStorage.AvroFormat = (function() {
+    
+                            /**
+                             * Properties of an AvroFormat.
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                             * @interface IAvroFormat
+                             */
+    
+                            /**
+                             * Constructs a new AvroFormat.
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                             * @classdesc Represents an AvroFormat.
+                             * @implements IAvroFormat
+                             * @constructor
+                             * @param {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.IAvroFormat=} [properties] Properties to set
+                             */
+                            function AvroFormat(properties) {
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * Creates a new AvroFormat instance using the specified properties.
+                             * @function create
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat
+                             * @static
+                             * @param {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.IAvroFormat=} [properties] Properties to set
+                             * @returns {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat} AvroFormat instance
+                             */
+                            AvroFormat.create = function create(properties) {
+                                return new AvroFormat(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified AvroFormat message. Does not implicitly {@link google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat
+                             * @static
+                             * @param {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.IAvroFormat} message AvroFormat message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            AvroFormat.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified AvroFormat message, length delimited. Does not implicitly {@link google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat
+                             * @static
+                             * @param {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.IAvroFormat} message AvroFormat message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            AvroFormat.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes an AvroFormat message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat} AvroFormat
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            AvroFormat.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes an AvroFormat message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat} AvroFormat
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            AvroFormat.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies an AvroFormat message.
+                             * @function verify
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            AvroFormat.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                return null;
+                            };
+    
+                            /**
+                             * Creates an AvroFormat message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat} AvroFormat
+                             */
+                            AvroFormat.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat)
+                                    return object;
+                                return new $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat();
+                            };
+    
+                            /**
+                             * Creates a plain object from an AvroFormat message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat
+                             * @static
+                             * @param {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat} message AvroFormat
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            AvroFormat.toObject = function toObject() {
+                                return {};
+                            };
+    
+                            /**
+                             * Converts this AvroFormat to JSON.
+                             * @function toJSON
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            AvroFormat.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for AvroFormat
+                             * @function getTypeUrl
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            AvroFormat.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.AvroFormat";
+                            };
+    
+                            return AvroFormat;
+                        })();
+    
+                        CloudStorage.PubSubAvroFormat = (function() {
+    
+                            /**
+                             * Properties of a PubSubAvroFormat.
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                             * @interface IPubSubAvroFormat
+                             */
+    
+                            /**
+                             * Constructs a new PubSubAvroFormat.
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage
+                             * @classdesc Represents a PubSubAvroFormat.
+                             * @implements IPubSubAvroFormat
+                             * @constructor
+                             * @param {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.IPubSubAvroFormat=} [properties] Properties to set
+                             */
+                            function PubSubAvroFormat(properties) {
+                                if (properties)
+                                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+    
+                            /**
+                             * Creates a new PubSubAvroFormat instance using the specified properties.
+                             * @function create
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat
+                             * @static
+                             * @param {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.IPubSubAvroFormat=} [properties] Properties to set
+                             * @returns {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat} PubSubAvroFormat instance
+                             */
+                            PubSubAvroFormat.create = function create(properties) {
+                                return new PubSubAvroFormat(properties);
+                            };
+    
+                            /**
+                             * Encodes the specified PubSubAvroFormat message. Does not implicitly {@link google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat.verify|verify} messages.
+                             * @function encode
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat
+                             * @static
+                             * @param {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.IPubSubAvroFormat} message PubSubAvroFormat message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            PubSubAvroFormat.encode = function encode(message, writer) {
+                                if (!writer)
+                                    writer = $Writer.create();
+                                return writer;
+                            };
+    
+                            /**
+                             * Encodes the specified PubSubAvroFormat message, length delimited. Does not implicitly {@link google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat.verify|verify} messages.
+                             * @function encodeDelimited
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat
+                             * @static
+                             * @param {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.IPubSubAvroFormat} message PubSubAvroFormat message or plain object to encode
+                             * @param {$protobuf.Writer} [writer] Writer to encode to
+                             * @returns {$protobuf.Writer} Writer
+                             */
+                            PubSubAvroFormat.encodeDelimited = function encodeDelimited(message, writer) {
+                                return this.encode(message, writer).ldelim();
+                            };
+    
+                            /**
+                             * Decodes a PubSubAvroFormat message from the specified reader or buffer.
+                             * @function decode
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @param {number} [length] Message length if known beforehand
+                             * @returns {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat} PubSubAvroFormat
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            PubSubAvroFormat.decode = function decode(reader, length) {
+                                if (!(reader instanceof $Reader))
+                                    reader = $Reader.create(reader);
+                                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat();
+                                while (reader.pos < end) {
+                                    var tag = reader.uint32();
+                                    switch (tag >>> 3) {
+                                    default:
+                                        reader.skipType(tag & 7);
+                                        break;
+                                    }
+                                }
+                                return message;
+                            };
+    
+                            /**
+                             * Decodes a PubSubAvroFormat message from the specified reader or buffer, length delimited.
+                             * @function decodeDelimited
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat
+                             * @static
+                             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                             * @returns {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat} PubSubAvroFormat
+                             * @throws {Error} If the payload is not a reader or valid buffer
+                             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                             */
+                            PubSubAvroFormat.decodeDelimited = function decodeDelimited(reader) {
+                                if (!(reader instanceof $Reader))
+                                    reader = new $Reader(reader);
+                                return this.decode(reader, reader.uint32());
+                            };
+    
+                            /**
+                             * Verifies a PubSubAvroFormat message.
+                             * @function verify
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            PubSubAvroFormat.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                return null;
+                            };
+    
+                            /**
+                             * Creates a PubSubAvroFormat message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat} PubSubAvroFormat
+                             */
+                            PubSubAvroFormat.fromObject = function fromObject(object) {
+                                if (object instanceof $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat)
+                                    return object;
+                                return new $root.google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat();
+                            };
+    
+                            /**
+                             * Creates a plain object from a PubSubAvroFormat message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat
+                             * @static
+                             * @param {google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat} message PubSubAvroFormat
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            PubSubAvroFormat.toObject = function toObject() {
+                                return {};
+                            };
+    
+                            /**
+                             * Converts this PubSubAvroFormat to JSON.
+                             * @function toJSON
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            PubSubAvroFormat.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+    
+                            /**
+                             * Gets the default type url for PubSubAvroFormat
+                             * @function getTypeUrl
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat
+                             * @static
+                             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                             * @returns {string} The default type url
+                             */
+                            PubSubAvroFormat.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                                if (typeUrlPrefix === undefined) {
+                                    typeUrlPrefix = "type.googleapis.com";
+                                }
+                                return typeUrlPrefix + "/google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.PubSubAvroFormat";
+                            };
+    
+                            return PubSubAvroFormat;
+                        })();
+    
+                        return CloudStorage;
+                    })();
+    
                     return IngestionDataSourceSettings;
+                })();
+    
+                v1.PlatformLogsSettings = (function() {
+    
+                    /**
+                     * Properties of a PlatformLogsSettings.
+                     * @memberof google.pubsub.v1
+                     * @interface IPlatformLogsSettings
+                     * @property {google.pubsub.v1.PlatformLogsSettings.Severity|null} [severity] PlatformLogsSettings severity
+                     */
+    
+                    /**
+                     * Constructs a new PlatformLogsSettings.
+                     * @memberof google.pubsub.v1
+                     * @classdesc Represents a PlatformLogsSettings.
+                     * @implements IPlatformLogsSettings
+                     * @constructor
+                     * @param {google.pubsub.v1.IPlatformLogsSettings=} [properties] Properties to set
+                     */
+                    function PlatformLogsSettings(properties) {
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
+                    }
+    
+                    /**
+                     * PlatformLogsSettings severity.
+                     * @member {google.pubsub.v1.PlatformLogsSettings.Severity} severity
+                     * @memberof google.pubsub.v1.PlatformLogsSettings
+                     * @instance
+                     */
+                    PlatformLogsSettings.prototype.severity = 0;
+    
+                    /**
+                     * Creates a new PlatformLogsSettings instance using the specified properties.
+                     * @function create
+                     * @memberof google.pubsub.v1.PlatformLogsSettings
+                     * @static
+                     * @param {google.pubsub.v1.IPlatformLogsSettings=} [properties] Properties to set
+                     * @returns {google.pubsub.v1.PlatformLogsSettings} PlatformLogsSettings instance
+                     */
+                    PlatformLogsSettings.create = function create(properties) {
+                        return new PlatformLogsSettings(properties);
+                    };
+    
+                    /**
+                     * Encodes the specified PlatformLogsSettings message. Does not implicitly {@link google.pubsub.v1.PlatformLogsSettings.verify|verify} messages.
+                     * @function encode
+                     * @memberof google.pubsub.v1.PlatformLogsSettings
+                     * @static
+                     * @param {google.pubsub.v1.IPlatformLogsSettings} message PlatformLogsSettings message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    PlatformLogsSettings.encode = function encode(message, writer) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (message.severity != null && Object.hasOwnProperty.call(message, "severity"))
+                            writer.uint32(/* id 1, wireType 0 =*/8).int32(message.severity);
+                        return writer;
+                    };
+    
+                    /**
+                     * Encodes the specified PlatformLogsSettings message, length delimited. Does not implicitly {@link google.pubsub.v1.PlatformLogsSettings.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof google.pubsub.v1.PlatformLogsSettings
+                     * @static
+                     * @param {google.pubsub.v1.IPlatformLogsSettings} message PlatformLogsSettings message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    PlatformLogsSettings.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer).ldelim();
+                    };
+    
+                    /**
+                     * Decodes a PlatformLogsSettings message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof google.pubsub.v1.PlatformLogsSettings
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {google.pubsub.v1.PlatformLogsSettings} PlatformLogsSettings
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    PlatformLogsSettings.decode = function decode(reader, length) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.pubsub.v1.PlatformLogsSettings();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            switch (tag >>> 3) {
+                            case 1: {
+                                    message.severity = reader.int32();
+                                    break;
+                                }
+                            default:
+                                reader.skipType(tag & 7);
+                                break;
+                            }
+                        }
+                        return message;
+                    };
+    
+                    /**
+                     * Decodes a PlatformLogsSettings message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof google.pubsub.v1.PlatformLogsSettings
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {google.pubsub.v1.PlatformLogsSettings} PlatformLogsSettings
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    PlatformLogsSettings.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
+    
+                    /**
+                     * Verifies a PlatformLogsSettings message.
+                     * @function verify
+                     * @memberof google.pubsub.v1.PlatformLogsSettings
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    PlatformLogsSettings.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (message.severity != null && message.hasOwnProperty("severity"))
+                            switch (message.severity) {
+                            default:
+                                return "severity: enum value expected";
+                            case 0:
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                                break;
+                            }
+                        return null;
+                    };
+    
+                    /**
+                     * Creates a PlatformLogsSettings message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof google.pubsub.v1.PlatformLogsSettings
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {google.pubsub.v1.PlatformLogsSettings} PlatformLogsSettings
+                     */
+                    PlatformLogsSettings.fromObject = function fromObject(object) {
+                        if (object instanceof $root.google.pubsub.v1.PlatformLogsSettings)
+                            return object;
+                        var message = new $root.google.pubsub.v1.PlatformLogsSettings();
+                        switch (object.severity) {
+                        default:
+                            if (typeof object.severity === "number") {
+                                message.severity = object.severity;
+                                break;
+                            }
+                            break;
+                        case "SEVERITY_UNSPECIFIED":
+                        case 0:
+                            message.severity = 0;
+                            break;
+                        case "DISABLED":
+                        case 1:
+                            message.severity = 1;
+                            break;
+                        case "DEBUG":
+                        case 2:
+                            message.severity = 2;
+                            break;
+                        case "INFO":
+                        case 3:
+                            message.severity = 3;
+                            break;
+                        case "WARNING":
+                        case 4:
+                            message.severity = 4;
+                            break;
+                        case "ERROR":
+                        case 5:
+                            message.severity = 5;
+                            break;
+                        }
+                        return message;
+                    };
+    
+                    /**
+                     * Creates a plain object from a PlatformLogsSettings message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof google.pubsub.v1.PlatformLogsSettings
+                     * @static
+                     * @param {google.pubsub.v1.PlatformLogsSettings} message PlatformLogsSettings
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    PlatformLogsSettings.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        var object = {};
+                        if (options.defaults)
+                            object.severity = options.enums === String ? "SEVERITY_UNSPECIFIED" : 0;
+                        if (message.severity != null && message.hasOwnProperty("severity"))
+                            object.severity = options.enums === String ? $root.google.pubsub.v1.PlatformLogsSettings.Severity[message.severity] === undefined ? message.severity : $root.google.pubsub.v1.PlatformLogsSettings.Severity[message.severity] : message.severity;
+                        return object;
+                    };
+    
+                    /**
+                     * Converts this PlatformLogsSettings to JSON.
+                     * @function toJSON
+                     * @memberof google.pubsub.v1.PlatformLogsSettings
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    PlatformLogsSettings.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+    
+                    /**
+                     * Gets the default type url for PlatformLogsSettings
+                     * @function getTypeUrl
+                     * @memberof google.pubsub.v1.PlatformLogsSettings
+                     * @static
+                     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                     * @returns {string} The default type url
+                     */
+                    PlatformLogsSettings.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                        if (typeUrlPrefix === undefined) {
+                            typeUrlPrefix = "type.googleapis.com";
+                        }
+                        return typeUrlPrefix + "/google.pubsub.v1.PlatformLogsSettings";
+                    };
+    
+                    /**
+                     * Severity enum.
+                     * @name google.pubsub.v1.PlatformLogsSettings.Severity
+                     * @enum {number}
+                     * @property {number} SEVERITY_UNSPECIFIED=0 SEVERITY_UNSPECIFIED value
+                     * @property {number} DISABLED=1 DISABLED value
+                     * @property {number} DEBUG=2 DEBUG value
+                     * @property {number} INFO=3 INFO value
+                     * @property {number} WARNING=4 WARNING value
+                     * @property {number} ERROR=5 ERROR value
+                     */
+                    PlatformLogsSettings.Severity = (function() {
+                        var valuesById = {}, values = Object.create(valuesById);
+                        values[valuesById[0] = "SEVERITY_UNSPECIFIED"] = 0;
+                        values[valuesById[1] = "DISABLED"] = 1;
+                        values[valuesById[2] = "DEBUG"] = 2;
+                        values[valuesById[3] = "INFO"] = 3;
+                        values[valuesById[4] = "WARNING"] = 4;
+                        values[valuesById[5] = "ERROR"] = 5;
+                        return values;
+                    })();
+    
+                    return PlatformLogsSettings;
                 })();
     
                 v1.Topic = (function() {
@@ -5902,6 +7258,7 @@
                      * @property {boolean|null} [enableExactlyOnceDelivery] Subscription enableExactlyOnceDelivery
                      * @property {google.protobuf.IDuration|null} [topicMessageRetentionDuration] Subscription topicMessageRetentionDuration
                      * @property {google.pubsub.v1.Subscription.State|null} [state] Subscription state
+                     * @property {google.pubsub.v1.Subscription.IAnalyticsHubSubscriptionInfo|null} [analyticsHubSubscriptionInfo] Subscription analyticsHubSubscriptionInfo
                      */
     
                     /**
@@ -6065,6 +7422,14 @@
                     Subscription.prototype.state = 0;
     
                     /**
+                     * Subscription analyticsHubSubscriptionInfo.
+                     * @member {google.pubsub.v1.Subscription.IAnalyticsHubSubscriptionInfo|null|undefined} analyticsHubSubscriptionInfo
+                     * @memberof google.pubsub.v1.Subscription
+                     * @instance
+                     */
+                    Subscription.prototype.analyticsHubSubscriptionInfo = null;
+    
+                    /**
                      * Creates a new Subscription instance using the specified properties.
                      * @function create
                      * @memberof google.pubsub.v1.Subscription
@@ -6125,6 +7490,8 @@
                             writer.uint32(/* id 19, wireType 0 =*/152).int32(message.state);
                         if (message.cloudStorageConfig != null && Object.hasOwnProperty.call(message, "cloudStorageConfig"))
                             $root.google.pubsub.v1.CloudStorageConfig.encode(message.cloudStorageConfig, writer.uint32(/* id 22, wireType 2 =*/178).fork()).ldelim();
+                        if (message.analyticsHubSubscriptionInfo != null && Object.hasOwnProperty.call(message, "analyticsHubSubscriptionInfo"))
+                            $root.google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo.encode(message.analyticsHubSubscriptionInfo, writer.uint32(/* id 23, wireType 2 =*/186).fork()).ldelim();
                         return writer;
                     };
     
@@ -6250,6 +7617,10 @@
                                     message.state = reader.int32();
                                     break;
                                 }
+                            case 23: {
+                                    message.analyticsHubSubscriptionInfo = $root.google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo.decode(reader, reader.uint32());
+                                    break;
+                                }
                             default:
                                 reader.skipType(tag & 7);
                                 break;
@@ -6366,6 +7737,11 @@
                             case 2:
                                 break;
                             }
+                        if (message.analyticsHubSubscriptionInfo != null && message.hasOwnProperty("analyticsHubSubscriptionInfo")) {
+                            var error = $root.google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo.verify(message.analyticsHubSubscriptionInfo);
+                            if (error)
+                                return "analyticsHubSubscriptionInfo." + error;
+                        }
                         return null;
                     };
     
@@ -6464,6 +7840,11 @@
                             message.state = 2;
                             break;
                         }
+                        if (object.analyticsHubSubscriptionInfo != null) {
+                            if (typeof object.analyticsHubSubscriptionInfo !== "object")
+                                throw TypeError(".google.pubsub.v1.Subscription.analyticsHubSubscriptionInfo: object expected");
+                            message.analyticsHubSubscriptionInfo = $root.google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo.fromObject(object.analyticsHubSubscriptionInfo);
+                        }
                         return message;
                     };
     
@@ -6500,6 +7881,7 @@
                             object.bigqueryConfig = null;
                             object.state = options.enums === String ? "STATE_UNSPECIFIED" : 0;
                             object.cloudStorageConfig = null;
+                            object.analyticsHubSubscriptionInfo = null;
                         }
                         if (message.name != null && message.hasOwnProperty("name"))
                             object.name = message.name;
@@ -6541,6 +7923,8 @@
                             object.state = options.enums === String ? $root.google.pubsub.v1.Subscription.State[message.state] === undefined ? message.state : $root.google.pubsub.v1.Subscription.State[message.state] : message.state;
                         if (message.cloudStorageConfig != null && message.hasOwnProperty("cloudStorageConfig"))
                             object.cloudStorageConfig = $root.google.pubsub.v1.CloudStorageConfig.toObject(message.cloudStorageConfig, options);
+                        if (message.analyticsHubSubscriptionInfo != null && message.hasOwnProperty("analyticsHubSubscriptionInfo"))
+                            object.analyticsHubSubscriptionInfo = $root.google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo.toObject(message.analyticsHubSubscriptionInfo, options);
                         return object;
                     };
     
@@ -6584,6 +7968,233 @@
                         values[valuesById[1] = "ACTIVE"] = 1;
                         values[valuesById[2] = "RESOURCE_ERROR"] = 2;
                         return values;
+                    })();
+    
+                    Subscription.AnalyticsHubSubscriptionInfo = (function() {
+    
+                        /**
+                         * Properties of an AnalyticsHubSubscriptionInfo.
+                         * @memberof google.pubsub.v1.Subscription
+                         * @interface IAnalyticsHubSubscriptionInfo
+                         * @property {string|null} [listing] AnalyticsHubSubscriptionInfo listing
+                         * @property {string|null} [subscription] AnalyticsHubSubscriptionInfo subscription
+                         */
+    
+                        /**
+                         * Constructs a new AnalyticsHubSubscriptionInfo.
+                         * @memberof google.pubsub.v1.Subscription
+                         * @classdesc Represents an AnalyticsHubSubscriptionInfo.
+                         * @implements IAnalyticsHubSubscriptionInfo
+                         * @constructor
+                         * @param {google.pubsub.v1.Subscription.IAnalyticsHubSubscriptionInfo=} [properties] Properties to set
+                         */
+                        function AnalyticsHubSubscriptionInfo(properties) {
+                            if (properties)
+                                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                    if (properties[keys[i]] != null)
+                                        this[keys[i]] = properties[keys[i]];
+                        }
+    
+                        /**
+                         * AnalyticsHubSubscriptionInfo listing.
+                         * @member {string} listing
+                         * @memberof google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo
+                         * @instance
+                         */
+                        AnalyticsHubSubscriptionInfo.prototype.listing = "";
+    
+                        /**
+                         * AnalyticsHubSubscriptionInfo subscription.
+                         * @member {string} subscription
+                         * @memberof google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo
+                         * @instance
+                         */
+                        AnalyticsHubSubscriptionInfo.prototype.subscription = "";
+    
+                        /**
+                         * Creates a new AnalyticsHubSubscriptionInfo instance using the specified properties.
+                         * @function create
+                         * @memberof google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo
+                         * @static
+                         * @param {google.pubsub.v1.Subscription.IAnalyticsHubSubscriptionInfo=} [properties] Properties to set
+                         * @returns {google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo} AnalyticsHubSubscriptionInfo instance
+                         */
+                        AnalyticsHubSubscriptionInfo.create = function create(properties) {
+                            return new AnalyticsHubSubscriptionInfo(properties);
+                        };
+    
+                        /**
+                         * Encodes the specified AnalyticsHubSubscriptionInfo message. Does not implicitly {@link google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo.verify|verify} messages.
+                         * @function encode
+                         * @memberof google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo
+                         * @static
+                         * @param {google.pubsub.v1.Subscription.IAnalyticsHubSubscriptionInfo} message AnalyticsHubSubscriptionInfo message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        AnalyticsHubSubscriptionInfo.encode = function encode(message, writer) {
+                            if (!writer)
+                                writer = $Writer.create();
+                            if (message.listing != null && Object.hasOwnProperty.call(message, "listing"))
+                                writer.uint32(/* id 1, wireType 2 =*/10).string(message.listing);
+                            if (message.subscription != null && Object.hasOwnProperty.call(message, "subscription"))
+                                writer.uint32(/* id 2, wireType 2 =*/18).string(message.subscription);
+                            return writer;
+                        };
+    
+                        /**
+                         * Encodes the specified AnalyticsHubSubscriptionInfo message, length delimited. Does not implicitly {@link google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo.verify|verify} messages.
+                         * @function encodeDelimited
+                         * @memberof google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo
+                         * @static
+                         * @param {google.pubsub.v1.Subscription.IAnalyticsHubSubscriptionInfo} message AnalyticsHubSubscriptionInfo message or plain object to encode
+                         * @param {$protobuf.Writer} [writer] Writer to encode to
+                         * @returns {$protobuf.Writer} Writer
+                         */
+                        AnalyticsHubSubscriptionInfo.encodeDelimited = function encodeDelimited(message, writer) {
+                            return this.encode(message, writer).ldelim();
+                        };
+    
+                        /**
+                         * Decodes an AnalyticsHubSubscriptionInfo message from the specified reader or buffer.
+                         * @function decode
+                         * @memberof google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @param {number} [length] Message length if known beforehand
+                         * @returns {google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo} AnalyticsHubSubscriptionInfo
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        AnalyticsHubSubscriptionInfo.decode = function decode(reader, length) {
+                            if (!(reader instanceof $Reader))
+                                reader = $Reader.create(reader);
+                            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo();
+                            while (reader.pos < end) {
+                                var tag = reader.uint32();
+                                switch (tag >>> 3) {
+                                case 1: {
+                                        message.listing = reader.string();
+                                        break;
+                                    }
+                                case 2: {
+                                        message.subscription = reader.string();
+                                        break;
+                                    }
+                                default:
+                                    reader.skipType(tag & 7);
+                                    break;
+                                }
+                            }
+                            return message;
+                        };
+    
+                        /**
+                         * Decodes an AnalyticsHubSubscriptionInfo message from the specified reader or buffer, length delimited.
+                         * @function decodeDelimited
+                         * @memberof google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo
+                         * @static
+                         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                         * @returns {google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo} AnalyticsHubSubscriptionInfo
+                         * @throws {Error} If the payload is not a reader or valid buffer
+                         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                         */
+                        AnalyticsHubSubscriptionInfo.decodeDelimited = function decodeDelimited(reader) {
+                            if (!(reader instanceof $Reader))
+                                reader = new $Reader(reader);
+                            return this.decode(reader, reader.uint32());
+                        };
+    
+                        /**
+                         * Verifies an AnalyticsHubSubscriptionInfo message.
+                         * @function verify
+                         * @memberof google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo
+                         * @static
+                         * @param {Object.<string,*>} message Plain object to verify
+                         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                         */
+                        AnalyticsHubSubscriptionInfo.verify = function verify(message) {
+                            if (typeof message !== "object" || message === null)
+                                return "object expected";
+                            if (message.listing != null && message.hasOwnProperty("listing"))
+                                if (!$util.isString(message.listing))
+                                    return "listing: string expected";
+                            if (message.subscription != null && message.hasOwnProperty("subscription"))
+                                if (!$util.isString(message.subscription))
+                                    return "subscription: string expected";
+                            return null;
+                        };
+    
+                        /**
+                         * Creates an AnalyticsHubSubscriptionInfo message from a plain object. Also converts values to their respective internal types.
+                         * @function fromObject
+                         * @memberof google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo
+                         * @static
+                         * @param {Object.<string,*>} object Plain object
+                         * @returns {google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo} AnalyticsHubSubscriptionInfo
+                         */
+                        AnalyticsHubSubscriptionInfo.fromObject = function fromObject(object) {
+                            if (object instanceof $root.google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo)
+                                return object;
+                            var message = new $root.google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo();
+                            if (object.listing != null)
+                                message.listing = String(object.listing);
+                            if (object.subscription != null)
+                                message.subscription = String(object.subscription);
+                            return message;
+                        };
+    
+                        /**
+                         * Creates a plain object from an AnalyticsHubSubscriptionInfo message. Also converts values to other types if specified.
+                         * @function toObject
+                         * @memberof google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo
+                         * @static
+                         * @param {google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo} message AnalyticsHubSubscriptionInfo
+                         * @param {$protobuf.IConversionOptions} [options] Conversion options
+                         * @returns {Object.<string,*>} Plain object
+                         */
+                        AnalyticsHubSubscriptionInfo.toObject = function toObject(message, options) {
+                            if (!options)
+                                options = {};
+                            var object = {};
+                            if (options.defaults) {
+                                object.listing = "";
+                                object.subscription = "";
+                            }
+                            if (message.listing != null && message.hasOwnProperty("listing"))
+                                object.listing = message.listing;
+                            if (message.subscription != null && message.hasOwnProperty("subscription"))
+                                object.subscription = message.subscription;
+                            return object;
+                        };
+    
+                        /**
+                         * Converts this AnalyticsHubSubscriptionInfo to JSON.
+                         * @function toJSON
+                         * @memberof google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo
+                         * @instance
+                         * @returns {Object.<string,*>} JSON object
+                         */
+                        AnalyticsHubSubscriptionInfo.prototype.toJSON = function toJSON() {
+                            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                        };
+    
+                        /**
+                         * Gets the default type url for AnalyticsHubSubscriptionInfo
+                         * @function getTypeUrl
+                         * @memberof google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo
+                         * @static
+                         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                         * @returns {string} The default type url
+                         */
+                        AnalyticsHubSubscriptionInfo.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                            if (typeUrlPrefix === undefined) {
+                                typeUrlPrefix = "type.googleapis.com";
+                            }
+                            return typeUrlPrefix + "/google.pubsub.v1.Subscription.AnalyticsHubSubscriptionInfo";
+                        };
+    
+                        return AnalyticsHubSubscriptionInfo;
                     })();
     
                     return Subscription;
@@ -8267,6 +9878,7 @@
                      * @property {boolean|null} [dropUnknownFields] BigQueryConfig dropUnknownFields
                      * @property {google.pubsub.v1.BigQueryConfig.State|null} [state] BigQueryConfig state
                      * @property {boolean|null} [useTableSchema] BigQueryConfig useTableSchema
+                     * @property {string|null} [serviceAccountEmail] BigQueryConfig serviceAccountEmail
                      */
     
                     /**
@@ -8333,6 +9945,14 @@
                     BigQueryConfig.prototype.useTableSchema = false;
     
                     /**
+                     * BigQueryConfig serviceAccountEmail.
+                     * @member {string} serviceAccountEmail
+                     * @memberof google.pubsub.v1.BigQueryConfig
+                     * @instance
+                     */
+                    BigQueryConfig.prototype.serviceAccountEmail = "";
+    
+                    /**
                      * Creates a new BigQueryConfig instance using the specified properties.
                      * @function create
                      * @memberof google.pubsub.v1.BigQueryConfig
@@ -8368,6 +9988,8 @@
                             writer.uint32(/* id 5, wireType 0 =*/40).int32(message.state);
                         if (message.useTableSchema != null && Object.hasOwnProperty.call(message, "useTableSchema"))
                             writer.uint32(/* id 6, wireType 0 =*/48).bool(message.useTableSchema);
+                        if (message.serviceAccountEmail != null && Object.hasOwnProperty.call(message, "serviceAccountEmail"))
+                            writer.uint32(/* id 7, wireType 2 =*/58).string(message.serviceAccountEmail);
                         return writer;
                     };
     
@@ -8424,6 +10046,10 @@
                                 }
                             case 6: {
                                     message.useTableSchema = reader.bool();
+                                    break;
+                                }
+                            case 7: {
+                                    message.serviceAccountEmail = reader.string();
                                     break;
                                 }
                             default:
@@ -8488,6 +10114,9 @@
                         if (message.useTableSchema != null && message.hasOwnProperty("useTableSchema"))
                             if (typeof message.useTableSchema !== "boolean")
                                 return "useTableSchema: boolean expected";
+                        if (message.serviceAccountEmail != null && message.hasOwnProperty("serviceAccountEmail"))
+                            if (!$util.isString(message.serviceAccountEmail))
+                                return "serviceAccountEmail: string expected";
                         return null;
                     };
     
@@ -8545,6 +10174,8 @@
                         }
                         if (object.useTableSchema != null)
                             message.useTableSchema = Boolean(object.useTableSchema);
+                        if (object.serviceAccountEmail != null)
+                            message.serviceAccountEmail = String(object.serviceAccountEmail);
                         return message;
                     };
     
@@ -8568,6 +10199,7 @@
                             object.dropUnknownFields = false;
                             object.state = options.enums === String ? "STATE_UNSPECIFIED" : 0;
                             object.useTableSchema = false;
+                            object.serviceAccountEmail = "";
                         }
                         if (message.table != null && message.hasOwnProperty("table"))
                             object.table = message.table;
@@ -8581,6 +10213,8 @@
                             object.state = options.enums === String ? $root.google.pubsub.v1.BigQueryConfig.State[message.state] === undefined ? message.state : $root.google.pubsub.v1.BigQueryConfig.State[message.state] : message.state;
                         if (message.useTableSchema != null && message.hasOwnProperty("useTableSchema"))
                             object.useTableSchema = message.useTableSchema;
+                        if (message.serviceAccountEmail != null && message.hasOwnProperty("serviceAccountEmail"))
+                            object.serviceAccountEmail = message.serviceAccountEmail;
                         return object;
                     };
     
@@ -8649,7 +10283,9 @@
                      * @property {google.pubsub.v1.CloudStorageConfig.IAvroConfig|null} [avroConfig] CloudStorageConfig avroConfig
                      * @property {google.protobuf.IDuration|null} [maxDuration] CloudStorageConfig maxDuration
                      * @property {number|Long|null} [maxBytes] CloudStorageConfig maxBytes
+                     * @property {number|Long|null} [maxMessages] CloudStorageConfig maxMessages
                      * @property {google.pubsub.v1.CloudStorageConfig.State|null} [state] CloudStorageConfig state
+                     * @property {string|null} [serviceAccountEmail] CloudStorageConfig serviceAccountEmail
                      */
     
                     /**
@@ -8732,12 +10368,28 @@
                     CloudStorageConfig.prototype.maxBytes = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
     
                     /**
+                     * CloudStorageConfig maxMessages.
+                     * @member {number|Long} maxMessages
+                     * @memberof google.pubsub.v1.CloudStorageConfig
+                     * @instance
+                     */
+                    CloudStorageConfig.prototype.maxMessages = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+    
+                    /**
                      * CloudStorageConfig state.
                      * @member {google.pubsub.v1.CloudStorageConfig.State} state
                      * @memberof google.pubsub.v1.CloudStorageConfig
                      * @instance
                      */
                     CloudStorageConfig.prototype.state = 0;
+    
+                    /**
+                     * CloudStorageConfig serviceAccountEmail.
+                     * @member {string} serviceAccountEmail
+                     * @memberof google.pubsub.v1.CloudStorageConfig
+                     * @instance
+                     */
+                    CloudStorageConfig.prototype.serviceAccountEmail = "";
     
                     // OneOf field names bound to virtual getters and setters
                     var $oneOfFields;
@@ -8791,10 +10443,14 @@
                             $root.google.protobuf.Duration.encode(message.maxDuration, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
                         if (message.maxBytes != null && Object.hasOwnProperty.call(message, "maxBytes"))
                             writer.uint32(/* id 7, wireType 0 =*/56).int64(message.maxBytes);
+                        if (message.maxMessages != null && Object.hasOwnProperty.call(message, "maxMessages"))
+                            writer.uint32(/* id 8, wireType 0 =*/64).int64(message.maxMessages);
                         if (message.state != null && Object.hasOwnProperty.call(message, "state"))
                             writer.uint32(/* id 9, wireType 0 =*/72).int32(message.state);
                         if (message.filenameDatetimeFormat != null && Object.hasOwnProperty.call(message, "filenameDatetimeFormat"))
                             writer.uint32(/* id 10, wireType 2 =*/82).string(message.filenameDatetimeFormat);
+                        if (message.serviceAccountEmail != null && Object.hasOwnProperty.call(message, "serviceAccountEmail"))
+                            writer.uint32(/* id 11, wireType 2 =*/90).string(message.serviceAccountEmail);
                         return writer;
                     };
     
@@ -8861,8 +10517,16 @@
                                     message.maxBytes = reader.int64();
                                     break;
                                 }
+                            case 8: {
+                                    message.maxMessages = reader.int64();
+                                    break;
+                                }
                             case 9: {
                                     message.state = reader.int32();
+                                    break;
+                                }
+                            case 11: {
+                                    message.serviceAccountEmail = reader.string();
                                     break;
                                 }
                             default:
@@ -8939,6 +10603,9 @@
                         if (message.maxBytes != null && message.hasOwnProperty("maxBytes"))
                             if (!$util.isInteger(message.maxBytes) && !(message.maxBytes && $util.isInteger(message.maxBytes.low) && $util.isInteger(message.maxBytes.high)))
                                 return "maxBytes: integer|Long expected";
+                        if (message.maxMessages != null && message.hasOwnProperty("maxMessages"))
+                            if (!$util.isInteger(message.maxMessages) && !(message.maxMessages && $util.isInteger(message.maxMessages.low) && $util.isInteger(message.maxMessages.high)))
+                                return "maxMessages: integer|Long expected";
                         if (message.state != null && message.hasOwnProperty("state"))
                             switch (message.state) {
                             default:
@@ -8948,8 +10615,12 @@
                             case 2:
                             case 3:
                             case 4:
+                            case 5:
                                 break;
                             }
+                        if (message.serviceAccountEmail != null && message.hasOwnProperty("serviceAccountEmail"))
+                            if (!$util.isString(message.serviceAccountEmail))
+                                return "serviceAccountEmail: string expected";
                         return null;
                     };
     
@@ -8997,6 +10668,15 @@
                                 message.maxBytes = object.maxBytes;
                             else if (typeof object.maxBytes === "object")
                                 message.maxBytes = new $util.LongBits(object.maxBytes.low >>> 0, object.maxBytes.high >>> 0).toNumber();
+                        if (object.maxMessages != null)
+                            if ($util.Long)
+                                (message.maxMessages = $util.Long.fromValue(object.maxMessages)).unsigned = false;
+                            else if (typeof object.maxMessages === "string")
+                                message.maxMessages = parseInt(object.maxMessages, 10);
+                            else if (typeof object.maxMessages === "number")
+                                message.maxMessages = object.maxMessages;
+                            else if (typeof object.maxMessages === "object")
+                                message.maxMessages = new $util.LongBits(object.maxMessages.low >>> 0, object.maxMessages.high >>> 0).toNumber();
                         switch (object.state) {
                         default:
                             if (typeof object.state === "number") {
@@ -9024,7 +10704,13 @@
                         case 4:
                             message.state = 4;
                             break;
+                        case "SCHEMA_MISMATCH":
+                        case 5:
+                            message.state = 5;
+                            break;
                         }
+                        if (object.serviceAccountEmail != null)
+                            message.serviceAccountEmail = String(object.serviceAccountEmail);
                         return message;
                     };
     
@@ -9051,8 +10737,14 @@
                                 object.maxBytes = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                             } else
                                 object.maxBytes = options.longs === String ? "0" : 0;
+                            if ($util.Long) {
+                                var long = new $util.Long(0, 0, false);
+                                object.maxMessages = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                            } else
+                                object.maxMessages = options.longs === String ? "0" : 0;
                             object.state = options.enums === String ? "STATE_UNSPECIFIED" : 0;
                             object.filenameDatetimeFormat = "";
+                            object.serviceAccountEmail = "";
                         }
                         if (message.bucket != null && message.hasOwnProperty("bucket"))
                             object.bucket = message.bucket;
@@ -9077,10 +10769,17 @@
                                 object.maxBytes = options.longs === String ? String(message.maxBytes) : message.maxBytes;
                             else
                                 object.maxBytes = options.longs === String ? $util.Long.prototype.toString.call(message.maxBytes) : options.longs === Number ? new $util.LongBits(message.maxBytes.low >>> 0, message.maxBytes.high >>> 0).toNumber() : message.maxBytes;
+                        if (message.maxMessages != null && message.hasOwnProperty("maxMessages"))
+                            if (typeof message.maxMessages === "number")
+                                object.maxMessages = options.longs === String ? String(message.maxMessages) : message.maxMessages;
+                            else
+                                object.maxMessages = options.longs === String ? $util.Long.prototype.toString.call(message.maxMessages) : options.longs === Number ? new $util.LongBits(message.maxMessages.low >>> 0, message.maxMessages.high >>> 0).toNumber() : message.maxMessages;
                         if (message.state != null && message.hasOwnProperty("state"))
                             object.state = options.enums === String ? $root.google.pubsub.v1.CloudStorageConfig.State[message.state] === undefined ? message.state : $root.google.pubsub.v1.CloudStorageConfig.State[message.state] : message.state;
                         if (message.filenameDatetimeFormat != null && message.hasOwnProperty("filenameDatetimeFormat"))
                             object.filenameDatetimeFormat = message.filenameDatetimeFormat;
+                        if (message.serviceAccountEmail != null && message.hasOwnProperty("serviceAccountEmail"))
+                            object.serviceAccountEmail = message.serviceAccountEmail;
                         return object;
                     };
     
@@ -9292,6 +10991,7 @@
                          * @memberof google.pubsub.v1.CloudStorageConfig
                          * @interface IAvroConfig
                          * @property {boolean|null} [writeMetadata] AvroConfig writeMetadata
+                         * @property {boolean|null} [useTopicSchema] AvroConfig useTopicSchema
                          */
     
                         /**
@@ -9316,6 +11016,14 @@
                          * @instance
                          */
                         AvroConfig.prototype.writeMetadata = false;
+    
+                        /**
+                         * AvroConfig useTopicSchema.
+                         * @member {boolean} useTopicSchema
+                         * @memberof google.pubsub.v1.CloudStorageConfig.AvroConfig
+                         * @instance
+                         */
+                        AvroConfig.prototype.useTopicSchema = false;
     
                         /**
                          * Creates a new AvroConfig instance using the specified properties.
@@ -9343,6 +11051,8 @@
                                 writer = $Writer.create();
                             if (message.writeMetadata != null && Object.hasOwnProperty.call(message, "writeMetadata"))
                                 writer.uint32(/* id 1, wireType 0 =*/8).bool(message.writeMetadata);
+                            if (message.useTopicSchema != null && Object.hasOwnProperty.call(message, "useTopicSchema"))
+                                writer.uint32(/* id 2, wireType 0 =*/16).bool(message.useTopicSchema);
                             return writer;
                         };
     
@@ -9379,6 +11089,10 @@
                                 switch (tag >>> 3) {
                                 case 1: {
                                         message.writeMetadata = reader.bool();
+                                        break;
+                                    }
+                                case 2: {
+                                        message.useTopicSchema = reader.bool();
                                         break;
                                     }
                                 default:
@@ -9419,6 +11133,9 @@
                             if (message.writeMetadata != null && message.hasOwnProperty("writeMetadata"))
                                 if (typeof message.writeMetadata !== "boolean")
                                     return "writeMetadata: boolean expected";
+                            if (message.useTopicSchema != null && message.hasOwnProperty("useTopicSchema"))
+                                if (typeof message.useTopicSchema !== "boolean")
+                                    return "useTopicSchema: boolean expected";
                             return null;
                         };
     
@@ -9436,6 +11153,8 @@
                             var message = new $root.google.pubsub.v1.CloudStorageConfig.AvroConfig();
                             if (object.writeMetadata != null)
                                 message.writeMetadata = Boolean(object.writeMetadata);
+                            if (object.useTopicSchema != null)
+                                message.useTopicSchema = Boolean(object.useTopicSchema);
                             return message;
                         };
     
@@ -9452,10 +11171,14 @@
                             if (!options)
                                 options = {};
                             var object = {};
-                            if (options.defaults)
+                            if (options.defaults) {
                                 object.writeMetadata = false;
+                                object.useTopicSchema = false;
+                            }
                             if (message.writeMetadata != null && message.hasOwnProperty("writeMetadata"))
                                 object.writeMetadata = message.writeMetadata;
+                            if (message.useTopicSchema != null && message.hasOwnProperty("useTopicSchema"))
+                                object.useTopicSchema = message.useTopicSchema;
                             return object;
                         };
     
@@ -9497,6 +11220,7 @@
                      * @property {number} PERMISSION_DENIED=2 PERMISSION_DENIED value
                      * @property {number} NOT_FOUND=3 NOT_FOUND value
                      * @property {number} IN_TRANSIT_LOCATION_RESTRICTION=4 IN_TRANSIT_LOCATION_RESTRICTION value
+                     * @property {number} SCHEMA_MISMATCH=5 SCHEMA_MISMATCH value
                      */
                     CloudStorageConfig.State = (function() {
                         var valuesById = {}, values = Object.create(valuesById);
@@ -9505,6 +11229,7 @@
                         values[valuesById[2] = "PERMISSION_DENIED"] = 2;
                         values[valuesById[3] = "NOT_FOUND"] = 3;
                         values[valuesById[4] = "IN_TRANSIT_LOCATION_RESTRICTION"] = 4;
+                        values[valuesById[5] = "SCHEMA_MISMATCH"] = 5;
                         return values;
                     })();
     
