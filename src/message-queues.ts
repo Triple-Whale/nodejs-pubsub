@@ -62,6 +62,7 @@ export interface BatchOptions {
   callOptions?: CallOptions;
   maxMessages?: number;
   maxMilliseconds?: number;
+  maxBytes?: number;
 }
 
 // This is the maximum number of bytes we will send for a batch of
@@ -107,6 +108,7 @@ export class BatchError extends DebugMessage {
  * @property {number} [maxMilliseconds=100] Maximum duration to wait before
  *     sending a batch. Batches can be sent earlier if the maxMessages option
  *     is met before the configured duration has passed.
+ * @property {number} [maxBytes=512000] Maximum number of bytes to allow in
  */
 /**
  * Class for buffering ack/modAck requests.
@@ -364,6 +366,7 @@ export abstract class MessageQueue {
     const defaults: BatchOptions = {
       maxMessages: 3000,
       maxMilliseconds: 100,
+      maxBytes: 512000,
     };
 
     this._options = Object.assign(defaults, options);

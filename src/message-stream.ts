@@ -208,7 +208,7 @@ export class MessageStream extends PassThrough {
    * @param {Function} callback Callback for completion of any destruction.
    * @private
    */
-  _destroy(error: Error | null, callback: (error: Error | null) => void): void {
+  cancel(): void {
     if (this._keepAliveHandle) {
       clearInterval(this._keepAliveHandle);
     }
@@ -221,8 +221,26 @@ export class MessageStream extends PassThrough {
         this._removeStream(i);
       }
     }
+  }
 
-    callback(error);
+  _pause(): void {
+    for (let i = 0; i < this._streams.length; i++) {
+      const tracker = this._streams[i];
+      if (tracker.stream) {
+        tracker.stream.pause();
+      }
+    }
+    this.pause();
+  }
+
+  _resume(): void {
+    for (let i = 0; i < this._streams.length; i++) {
+      const tracker = this._streams[i];
+      if (tracker.stream) {
+        tracker.stream.resume();
+      }
+    }
+    this.resume();
   }
 
   /**
@@ -244,6 +262,10 @@ export class MessageStream extends PassThrough {
       .on('error', err => this._onError(index, err))
       .once('status', status => this._onStatus(index, status))
       .on('data', (data: PullResponse) => this._onData(index, data));
+    if (this.isPaused()) {
+      // Avoid a replaced stream from resuming the paused stream.
+      stream.pause();
+    }
   }
 
   private _onData(index: number, data: PullResponse): void {
@@ -318,17 +340,16 @@ export class MessageStream extends PassThrough {
       streamAckDeadlineSeconds: this._subscriber.ackDeadline,
       maxOutstandingMessages: this._subscriber.useLegacyFlowControl
         ? 0
-        : this._subscriber.maxMessages,
+        : this._subscriber.maxMessages / this._streams.length,
       maxOutstandingBytes: this._subscriber.useLegacyFlowControl
         ? 0
-        : this._subscriber.maxBytes,
+        : this._subscriber.maxBytes / this._streams.length,
     };
     const otherArgs = {
       headers: {
         'x-goog-request-params': 'subscription=' + this._subscriber.name,
       },
     };
-
     const stream: PullStream = client.streamingPull({deadline, otherArgs});
     this._replaceStream(index, stream);
     stream.write(request);

@@ -28,7 +28,7 @@
     var $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util;
     
     // Exported root namespace
-    var $root = $protobuf.roots._google_cloud_pubsub_protos || ($protobuf.roots._google_cloud_pubsub_protos = {});
+    var $root = $protobuf.roots._tw_pubsub_protos || ($protobuf.roots._tw_pubsub_protos = {});
     
     $root.google = (function() {
     
@@ -2063,7 +2063,12 @@
                             // OneOf field names bound to virtual getters and setters
                             var $oneOfFields;
     
-                            // Virtual OneOf for proto3 optional field
+                            /**
+                             * TextFormat _delimiter.
+                             * @member {"delimiter"|undefined} _delimiter
+                             * @memberof google.pubsub.v1.IngestionDataSourceSettings.CloudStorage.TextFormat
+                             * @instance
+                             */
                             Object.defineProperty(TextFormat.prototype, "_delimiter", {
                                 get: $util.oneOfGetter($oneOfFields = ["delimiter"]),
                                 set: $util.oneOfSetter($oneOfFields)

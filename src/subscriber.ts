@@ -628,6 +628,7 @@ export class Subscriber extends EventEmitter {
     this._subscription = subscription;
 
     this.setOptions(options);
+    this.updateAckDeadline();
   }
 
   /**
@@ -835,6 +836,18 @@ export class Subscriber extends EventEmitter {
     this._modAcks.close();
   }
 
+  cancel(): void {
+    this._stream.cancel();
+  }
+
+  pause(): void {
+    this._stream._pause();
+  }
+
+  resume(): void {
+    this._stream._resume();
+  }
+
   /**
    * Gets the subscriber client instance.
    *
@@ -946,8 +959,8 @@ export class Subscriber extends EventEmitter {
       .once('close', () => this.close());
 
     this._inventory
-      .on('full', () => this._stream.pause())
-      .on('free', () => this._stream.resume());
+      .on('full', () => this.pause())
+      .on('free', () => this.resume());
 
     this._stream.start().catch(err => {
       this.emit('error', err);
@@ -1101,7 +1114,7 @@ export class Subscriber extends EventEmitter {
    *
    * @returns {Promise}
    */
-  private async _waitForFlush(): Promise<void> {
+  async _waitForFlush(): Promise<void> {
     const promises: Array<Promise<void>> = [];
 
     if (this._acks.numPendingRequests) {
