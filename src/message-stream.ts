@@ -230,6 +230,7 @@ export class MessageStream extends PassThrough {
         tracker.stream.pause();
       }
     }
+    this.pause();
   }
 
   _resume(): void {
@@ -239,6 +240,7 @@ export class MessageStream extends PassThrough {
         tracker.stream.resume();
       }
     }
+    this.resume();
   }
 
   /**
@@ -260,6 +262,10 @@ export class MessageStream extends PassThrough {
       .on('error', err => this._onError(index, err))
       .once('status', status => this._onStatus(index, status))
       .on('data', (data: PullResponse) => this._onData(index, data));
+    if (this.isPaused()) {
+      // Avoid a replaced stream from resuming the paused stream.
+      stream.pause();
+    }
   }
 
   private _onData(index: number, data: PullResponse): void {
