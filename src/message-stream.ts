@@ -146,7 +146,8 @@ export class MessageStream extends PassThrough {
   private _retrier: ExponentialRetry<StreamTracked>;
 
   private _streams: StreamTracked[];
-
+  private paused = false;
+  private cancelled = false;
   private _subscriber: Subscriber;
   constructor(sub: Subscriber, options = {} as MessageStreamOptions) {
     options = Object.assign({}, DEFAULT_OPTIONS, options);
@@ -208,11 +209,11 @@ export class MessageStream extends PassThrough {
    * @param {Function} callback Callback for completion of any destruction.
    * @private
    */
-  _destroy(error: Error | null, callback: (error: Error | null) => void): void {
+  cancel(): void {
     if (this._keepAliveHandle) {
       clearInterval(this._keepAliveHandle);
     }
-
+    this.cancelled = true;
     this._retrier.close();
 
     for (let i = 0; i < this._streams.length; i++) {
@@ -221,8 +222,29 @@ export class MessageStream extends PassThrough {
         this._removeStream(i);
       }
     }
+  }
 
-    callback(error);
+  _pause(): void {
+    this.paused = true;
+    for (let i = 0; i < this._streams.length; i++) {
+      const tracker = this._streams[i];
+      if (tracker.stream) {
+        tracker.stream.pause();
+      }
+    }
+  }
+
+  _resume(): void {
+    this.paused = false;
+    for (let i = 0; i < this._streams.length; i++) {
+      const tracker = this._streams[i];
+      if (tracker.stream) {
+        tracker.stream.resume();
+      }
+    }
+    if (!this.cancelled) {
+      this._fillMissingStreams();
+    }
   }
 
   /**
@@ -244,6 +266,10 @@ export class MessageStream extends PassThrough {
       .on('error', err => this._onError(index, err))
       .once('status', status => this._onStatus(index, status))
       .on('data', (data: PullResponse) => this._onData(index, data));
+    // if (this.paused) {
+    //   // Avoid a replaced stream from resuming the paused stream.
+    //   stream.pause();
+    // }
   }
 
   private _onData(index: number, data: PullResponse): void {
@@ -318,20 +344,27 @@ export class MessageStream extends PassThrough {
       streamAckDeadlineSeconds: this._subscriber.ackDeadline,
       maxOutstandingMessages: this._subscriber.useLegacyFlowControl
         ? 0
-        : this._subscriber.maxMessages,
+        : this._subscriber.maxMessages / this._streams.length,
       maxOutstandingBytes: this._subscriber.useLegacyFlowControl
         ? 0
-        : this._subscriber.maxBytes,
+        : this._subscriber.maxBytes / this._streams.length,
     };
     const otherArgs = {
       headers: {
         'x-goog-request-params': 'subscription=' + this._subscriber.name,
       },
     };
-
     const stream: PullStream = client.streamingPull({deadline, otherArgs});
     this._replaceStream(index, stream);
     stream.write(request);
+  }
+
+  _fillMissingStreams(): void {
+    for (let i = 0; i < this._streams.length; i++) {
+      if (!this._streams[i].stream) {
+        this._fillOne(i);
+      }
+    }
   }
 
   /**
@@ -383,7 +416,6 @@ export class MessageStream extends PassThrough {
    */
   private _onEnd(index: number, status: grpc.StatusObject): void {
     this._removeStream(index);
-
     const statusError = new StatusError(status);
 
     if (PullRetry.retry(status)) {
@@ -448,7 +480,7 @@ export class MessageStream extends PassThrough {
    * @param {object} status The status message stating why it was closed.
    */
   private _onStatus(index: number, status: grpc.StatusObject): void {
-    if (this.destroyed) {
+    if (this.destroyed || this.cancelled || this.paused) {
       return;
     }
 
