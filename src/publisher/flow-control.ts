@@ -112,7 +112,7 @@ export class FlowControl {
    * Do not use externally, it may change without warning.
    * @private
    */
-  async willSend(bytes: number, messages: number): Promise<void> {
+  willSend(bytes: number, messages: number): Promise<void> {
     // Add this to our queue size.
     this.bytes += bytes;
     this.messages += messages;
@@ -129,7 +129,10 @@ export class FlowControl {
       });
 
       // This will pass through when someone else's this.sent() completes.
-      await promise.promise;
+      return promise.promise;
+    } else {
+      // This will pass through immediately.
+      return Promise.resolve();
     }
   }
 
