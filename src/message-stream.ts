@@ -319,7 +319,7 @@ export class MessageStream extends PassThrough {
   }
 
   private async _fillOne(index: number, client?: ClientStub) {
-    if (this.destroyed) {
+    if (this.destroyed || this.cancelled || this.paused) {
       return;
     }
 
@@ -416,6 +416,7 @@ export class MessageStream extends PassThrough {
    */
   private _onEnd(index: number, status: grpc.StatusObject): void {
     this._removeStream(index);
+
     const statusError = new StatusError(status);
 
     if (PullRetry.retry(status)) {
@@ -428,6 +429,9 @@ export class MessageStream extends PassThrough {
       );
       if (PullRetry.resetFailures(status)) {
         this._retrier.reset(this._streams[index]);
+      }
+      if (this.destroyed || this.cancelled || this.paused) {
+        return;
       }
       this._retrier.retryLater(this._streams[index], () => {
         this._fillOne(index);
@@ -480,7 +484,7 @@ export class MessageStream extends PassThrough {
    * @param {object} status The status message stating why it was closed.
    */
   private _onStatus(index: number, status: grpc.StatusObject): void {
-    if (this.destroyed || this.cancelled || this.paused) {
+    if (this.destroyed) {
       return;
     }
 
