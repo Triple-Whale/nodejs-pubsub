@@ -997,7 +997,7 @@ export class Subscriber extends EventEmitter {
         defaultOptions.subscription.maxOutstandingMessages;
       this.maxBytes =
         options.flowControl.maxBytes ||
-        defaultOptions.subscription.maxOutstandingBytes;
+        defaultOptions.subscription.maxOutstandingBytes * 5;
 
       // In the event that the user has specified the maxMessages option, we
       // want to make sure that the maxStreams option isn't higher.
