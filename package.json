@@ -1,5 +1,5 @@
 {
-  "name": "@google-cloud/pubsub",
+  "name": "@tw/pubsub",
   "description": "Cloud Pub/Sub Client Library for Node.js",
   "version": "4.10.0",
   "license": "Apache-2.0",
