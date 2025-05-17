@@ -114,7 +114,7 @@ export class ChannelError extends Error implements grpc.ServiceError {
     super(
       `Failed to connect to channel. Reason: ${
         process.env.DEBUG_GRPC ? err.stack : err.message
-      }`
+      }`,
     );
     this.code = err.message.includes('deadline')
       ? grpc.status.DEADLINE_EXCEEDED
@@ -157,7 +157,7 @@ export class MessageStream extends PassThrough {
     this._options = options;
     this._retrier = new ExponentialRetry<{}>(
       options.retryMinBackoff!, // Filled by DEFAULT_OPTIONS
-      options.retryMaxBackoff!
+      options.retryMaxBackoff!,
     );
 
     this._streams = [];
@@ -179,7 +179,7 @@ export class MessageStream extends PassThrough {
 
     this._keepAliveHandle = setInterval(
       () => this._keepAlive(),
-      KEEP_ALIVE_INTERVAL
+      KEEP_ALIVE_INTERVAL,
     );
     this._keepAliveHandle.unref();
   }
@@ -379,7 +379,7 @@ export class MessageStream extends PassThrough {
    */
   private async _getClient(): Promise<ClientStub> {
     const client = await this._subscriber.getClient();
-    client.initialize();
+    await client.initialize();
     return client.subscriberStub as Promise<ClientStub>;
   }
 
@@ -430,19 +430,20 @@ export class MessageStream extends PassThrough {
       if (PullRetry.resetFailures(status)) {
         this._retrier.reset(this._streams[index]);
       }
+
       if (this.destroyed || this.cancelled || this.paused) {
         return;
       }
-      this._retrier.retryLater(this._streams[index], () => {
-        this._fillOne(index);
-      });
+      this._retrier.retryLater(this._streams[index], () =>
+        this._fillOne(index),
+      );
     } else if (this._activeStreams() === 0) {
       this.emit(
         'debug',
         new DebugMessage(
           `Subscriber stream ${index} has ended with status ${status.code}; will not be retried.`,
-          statusError
-        )
+          statusError,
+        ),
       );
 
       // No streams left, and nothing to retry.

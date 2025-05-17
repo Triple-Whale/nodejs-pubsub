@@ -103,11 +103,11 @@ export declare interface Subscription {
   // Only used internally.
   on(
     event: 'newListener',
-    listener: (event: string | symbol, listener: Function) => void
+    listener: (event: string | symbol, listener: Function) => void,
   ): this;
   on(
     event: 'removeListener',
-    listener: (event: string | symbol, listener: Function) => void
+    listener: (event: string | symbol, listener: Function) => void,
   ): this;
 
   // Catch-all. If you get an error about this line, it means you're
@@ -420,20 +420,20 @@ export class Subscription extends EventEmitter {
    * ```
    */
   create(
-    options?: CreateSubscriptionOptions
+    options?: CreateSubscriptionOptions,
   ): Promise<CreateSubscriptionResponse>;
   create(callback: CreateSubscriptionCallback): void;
   create(
     options: CreateSubscriptionOptions,
-    callback: CreateSubscriptionCallback
+    callback: CreateSubscriptionCallback,
   ): void;
   create(
     optsOrCallback?: CreateSubscriptionOptions | CreateSubscriptionCallback,
-    callback?: CreateSubscriptionCallback
+    callback?: CreateSubscriptionCallback,
   ): void | Promise<CreateSubscriptionResponse> {
     if (!this.topic) {
       throw new Error(
-        'Subscriptions can only be created when accessed through Topics'
+        'Subscriptions can only be created when accessed through Topics',
       );
     }
 
@@ -452,7 +452,7 @@ export class Subscription extends EventEmitter {
         }
         Object.assign(this, sub);
         callback!(null, this, resp);
-      }
+      },
     );
   }
 
@@ -503,18 +503,18 @@ export class Subscription extends EventEmitter {
    */
   createSnapshot(
     name: string,
-    gaxOpts?: CallOptions
+    gaxOpts?: CallOptions,
   ): Promise<CreateSnapshotResponse>;
   createSnapshot(name: string, callback: CreateSnapshotCallback): void;
   createSnapshot(
     name: string,
     gaxOpts: CallOptions,
-    callback: CreateSnapshotCallback
+    callback: CreateSnapshotCallback,
   ): void;
   createSnapshot(
     name: string,
     optsOrCallback?: CallOptions | CreateSnapshotCallback,
-    callback?: CreateSnapshotCallback
+    callback?: CreateSnapshotCallback,
   ): void | Promise<CreateSnapshotResponse> {
     if (typeof name !== 'string') {
       throw new Error('A name is required to create a snapshot.');
@@ -541,7 +541,7 @@ export class Subscription extends EventEmitter {
         }
         snapshot.metadata = resp!;
         callback!(null, snapshot, resp!);
-      }
+      },
     );
   }
 
@@ -581,7 +581,7 @@ export class Subscription extends EventEmitter {
   delete(gaxOpts: CallOptions, callback: EmptyCallback): void;
   delete(
     optsOrCallback?: CallOptions | EmptyCallback,
-    callback?: EmptyCallback
+    callback?: EmptyCallback,
   ): void | Promise<EmptyResponse> {
     const gaxOpts = typeof optsOrCallback === 'object' ? optsOrCallback : {};
     callback = typeof optsOrCallback === 'function' ? optsOrCallback : callback;
@@ -591,7 +591,7 @@ export class Subscription extends EventEmitter {
     };
 
     if (this.isOpen) {
-      this._subscriber.close();
+      void this._subscriber.close();
     }
 
     this.request<google.protobuf.Empty>(
@@ -601,7 +601,7 @@ export class Subscription extends EventEmitter {
         reqOpts,
         gaxOpts,
       },
-      callback!
+      callback!,
     );
   }
 
@@ -747,7 +747,7 @@ export class Subscription extends EventEmitter {
   get(gaxOpts: GetSubscriptionOptions, callback: GetSubscriptionCallback): void;
   get(
     optsOrCallback?: GetSubscriptionOptions | GetSubscriptionCallback,
-    callback?: GetSubscriptionCallback
+    callback?: GetSubscriptionCallback,
   ): void | Promise<GetSubscriptionResponse> {
     const gaxOpts = typeof optsOrCallback === 'object' ? optsOrCallback : {};
     callback = typeof optsOrCallback === 'function' ? optsOrCallback : callback;
@@ -813,11 +813,11 @@ export class Subscription extends EventEmitter {
   getMetadata(callback: GetSubscriptionMetadataCallback): void;
   getMetadata(
     gaxOpts: CallOptions,
-    callback: GetSubscriptionMetadataCallback
+    callback: GetSubscriptionMetadataCallback,
   ): void;
   getMetadata(
     optsOrCallback?: CallOptions | GetSubscriptionMetadataCallback,
-    callback?: GetSubscriptionMetadataCallback
+    callback?: GetSubscriptionMetadataCallback,
   ): void | Promise<GetSubscriptionMetadataResponse> {
     const gaxOpts = typeof optsOrCallback === 'object' ? optsOrCallback : {};
     callback = typeof optsOrCallback === 'function' ? optsOrCallback : callback;
@@ -838,7 +838,7 @@ export class Subscription extends EventEmitter {
           this.metadata = apiResponse!;
         }
         callback!(err!, apiResponse!);
-      }
+      },
     );
   }
 
@@ -902,18 +902,18 @@ export class Subscription extends EventEmitter {
    */
   modifyPushConfig(
     config: PushConfig,
-    gaxOpts?: CallOptions
+    gaxOpts?: CallOptions,
   ): Promise<EmptyResponse>;
   modifyPushConfig(config: PushConfig, callback: EmptyCallback): void;
   modifyPushConfig(
     config: PushConfig,
     gaxOpts: CallOptions,
-    callback: EmptyCallback
+    callback: EmptyCallback,
   ): void;
   modifyPushConfig(
     config: PushConfig,
     optsOrCallback?: CallOptions | EmptyCallback,
-    callback?: EmptyCallback
+    callback?: EmptyCallback,
   ): void | Promise<EmptyResponse> {
     const gaxOpts = typeof optsOrCallback === 'object' ? optsOrCallback : {};
     callback = typeof optsOrCallback === 'function' ? optsOrCallback : callback;
@@ -930,7 +930,7 @@ export class Subscription extends EventEmitter {
         reqOpts,
         gaxOpts,
       },
-      callback!
+      callback!,
     );
   }
 
@@ -1007,12 +1007,12 @@ export class Subscription extends EventEmitter {
   seek(
     snapshot: string | Date,
     gaxOpts: CallOptions,
-    callback: SeekCallback
+    callback: SeekCallback,
   ): void;
   seek(
     snapshot: string | Date,
     optsOrCallback?: CallOptions | SeekCallback,
-    callback?: SeekCallback
+    callback?: SeekCallback,
   ): void | Promise<SeekResponse> {
     const gaxOpts = typeof optsOrCallback === 'object' ? optsOrCallback : {};
     callback = typeof optsOrCallback === 'function' ? optsOrCallback : callback;
@@ -1040,7 +1040,7 @@ export class Subscription extends EventEmitter {
         reqOpts,
         gaxOpts,
       },
-      callback!
+      callback!,
     );
   }
 
@@ -1084,21 +1084,21 @@ export class Subscription extends EventEmitter {
    */
   setMetadata(
     metadata: SubscriptionMetadata,
-    gaxOpts?: CallOptions
+    gaxOpts?: CallOptions,
   ): Promise<SetSubscriptionMetadataResponse>;
   setMetadata(
     metadata: SubscriptionMetadata,
-    callback: SetSubscriptionMetadataCallback
+    callback: SetSubscriptionMetadataCallback,
   ): void;
   setMetadata(
     metadata: SubscriptionMetadata,
     gaxOpts: CallOptions,
-    callback: SetSubscriptionMetadataCallback
+    callback: SetSubscriptionMetadataCallback,
   ): void;
   setMetadata(
     metadata: SubscriptionMetadata,
     optsOrCallback?: CallOptions | SetSubscriptionMetadataCallback,
-    callback?: SetSubscriptionMetadataCallback
+    callback?: SetSubscriptionMetadataCallback,
   ): void | Promise<SetSubscriptionMetadataResponse> {
     const gaxOpts = typeof optsOrCallback === 'object' ? optsOrCallback : {};
     callback = typeof optsOrCallback === 'function' ? optsOrCallback : callback;
@@ -1119,7 +1119,7 @@ export class Subscription extends EventEmitter {
         reqOpts,
         gaxOpts,
       },
-      callback!
+      callback!,
     );
   }
   /**
@@ -1162,7 +1162,7 @@ export class Subscription extends EventEmitter {
 
     this.on('removeListener', () => {
       if (this.isOpen && this.listenerCount('message') === 0) {
-        this._subscriber.close();
+        void this._subscriber.close();
       }
     });
   }
@@ -1172,7 +1172,7 @@ export class Subscription extends EventEmitter {
    * @private
    */
   static formatMetadata_(
-    metadata: SubscriptionMetadata
+    metadata: SubscriptionMetadata,
   ): google.pubsub.v1.ISubscription {
     const formatted = extend(true, {}, metadata);
 
