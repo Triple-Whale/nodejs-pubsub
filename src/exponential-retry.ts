@@ -146,9 +146,10 @@ export class ExponentialRetry<T> {
    */
   reset(item: T) {
     const retried = item as RetriedItem<T>;
-    while (this._items.remove(retried)) {
-      // Keep removing it until it's gone.
+    if (!retried.retryInfo) {
+      return;
     }
+    this._items.remove(retried);
     delete retried.retryInfo;
   }
 
