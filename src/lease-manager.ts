@@ -98,12 +98,10 @@ export class LeaseManager extends EventEmitter {
     const {allowExcessMessages} = this._options;
     const wasFull = this.isFull();
 
-    this._messages.add(message);
-    this.bytes += message.length;
-
-    message.subSpans.flowStart();
-
-    if (allowExcessMessages! || !wasFull) {
+    if (allowExcessMessages || !wasFull) {
+      this._messages.add(message);
+      this.bytes += message.length;
+      message.subSpans.flowStart();
       this._dispense(message);
     } else {
       this._pending.push(message);
@@ -159,7 +157,12 @@ export class LeaseManager extends EventEmitter {
    */
   remove(message: Message): void {
     if (!this._messages.has(message)) {
-      return;
+      if (this._pending.includes(message)) {
+        const index = this._pending.indexOf(message);
+        this._pending.splice(index, 1);
+      } else {
+        return;
+      }
     }
 
     const wasFull = this.isFull();
@@ -167,13 +170,11 @@ export class LeaseManager extends EventEmitter {
     this._messages.delete(message);
     this.bytes -= message.length;
 
+    if (!this.isFull() && this.pending > 0) {
+      this.add(this._pending.shift()!);
+    }
     if (wasFull && !this.isFull()) {
       process.nextTick(() => this.emit('free'));
-    } else if (this._pending.includes(message)) {
-      const index = this._pending.indexOf(message);
-      this._pending.splice(index, 1);
-    } else if (this.pending > 0) {
-      this._dispense(this._pending.shift()!);
     }
 
     if (this.size === 0 && this._isLeasing) {
@@ -241,7 +242,7 @@ export class LeaseManager extends EventEmitter {
     const maxExtensionMinutes =
       this._subscriber.maxExtensionTime.totalOf('minute');
 
-    for (const message of this._messages) {
+    for (const message of [...this._messages, ...this._pending]) {
       // Lifespan here is in minutes.
       const lifespan = (Date.now() - message.received) / (60 * 1000);
 
