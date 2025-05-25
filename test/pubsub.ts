@@ -692,6 +692,7 @@ describe('PubSub', () => {
       let requestStub: sinon.SinonStub<unknown[], unknown>;
 
       beforeEach(() => {
+        // @ts-ignore
         requestStub = sandbox
           .stub(pubsub, 'request')
           .callsFake((config, callback: Function) => {
