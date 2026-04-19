@@ -1,7 +1,7 @@
 {
   "name": "@tw/pubsub",
   "description": "Cloud Pub/Sub Client Library for Node.js",
-  "version": "5.1.0",
+  "version": "5.2.1",
   "license": "Apache-2.0",
   "author": "Google Inc.",
   "engines": {
@@ -55,7 +55,7 @@
     "@google-cloud/projectify": "^4.0.0",
     "@google-cloud/promisify": "^4.0.0",
     "@grpc/grpc-js": "1.12.2",
-    "protobufjs": "7.4.0",
+    "protobufjs": "^7.5.5",
     "@opentelemetry/api": "~1.9.0",
     "@opentelemetry/semantic-conventions": "~1.28.0",
     "arrify": "^2.0.0",
