@@ -60,7 +60,7 @@
     "@opentelemetry/semantic-conventions": "~1.28.0",
     "arrify": "^2.0.0",
     "extend": "^3.0.2",
-    "google-auth-library": "^10.5.0",
+    "google-auth-library": "10.5.0",
     "google-gax": "^5.0.5",
     "heap-js": "^2.2.0",
     "is-stream-ended": "^0.1.4",
